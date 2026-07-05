@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SynergyStation Hub</title>
     
     <link rel="icon" type="image/jpeg" href="pictures/hub.png">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        /* --- MODERN NEON / GLASSMORPHISM THEME --- */
+        /* --- PREMIUM CYBERPUNK / GLASSMORPHISM VARIABLES --- */
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(20, 26, 44, 0.6);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --accent-glow: rgba(0, 255, 136, 0.5);
-            --primary-gradient: linear-gradient(135deg, #00ff88 0%, #00bcff 100%);
-            --btn-hover-bg: rgba(255, 255, 255, 0.05);
-            --discord-color: #5865F2;
+            --bg-dark: #04060e;
+            --card-glass: rgba(10, 15, 30, 0.7);
+            --card-border: rgba(255, 255, 255, 0.05);
+            --card-border-glow: rgba(0, 255, 136, 0.2);
+            --text-pure: #ffffff;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
+            --cyan: #00f0ff;
+            --emerald: #00ff87;
+            --gradient-primary: linear-gradient(135deg, #00ff87 0%, #00f0ff 100%);
+            --gradient-hover: linear-gradient(135deg, rgba(0, 255, 135, 0.1) 0%, rgba(0, 240, 255, 0.1) 100%);
+            --discord-blue: #5865F2;
         }
 
         * {
@@ -30,49 +31,69 @@
             margin: 0;
             padding: 0;
             font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-dark);
+            /* Animierte, fließende Hintergrund-Glows */
             background-image: 
-                radial-gradient(at 0% 0%, rgba(0, 188, 255, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 255, 136, 0.08) 0px, transparent 50%);
+                radial-gradient(circle at 10% 20%, rgba(0, 240, 255, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 90% 80%, rgba(0, 255, 135, 0.12) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(4, 6, 14, 1) 0%, rgba(4, 6, 14, 0.95) 100%);
+            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
             align-items: center;
-            padding: 100px 20px 40px 20px; /* Platz oben für die Leiste */
+            padding: 120px 20px 60px 20px;
+            overflow-x: hidden;
         }
 
-        /* --- NEUE OBRE LEISTE (NAVBAR) --- */
+        /* Sanfte Intro-Animation für die gesamte Seite */
+        @keyframes pageIntro {
+            from { opacity: 0; transform: translateY(20px); filter: blur(5px); }
+            to { opacity: 1; transform: translateY(0); filter: blur(0); }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+            animation: pageIntro 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        /* --- STYLISH NAVBAR --- */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            height: 65px;
-            background: rgba(11, 15, 25, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            height: 75px;
+            background: rgba(4, 6, 14, 0.7);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--card-border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0 30px;
+            padding: 0 40px;
             z-index: 1000;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
         }
 
         .nav-logo {
-            font-weight: 700;
-            font-size: 1.05rem;
-            letter-spacing: -0.5px;
-            background: var(--primary-gradient);
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.7px;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-decoration: none;
+            position: relative;
         }
 
         .nav-links {
@@ -84,32 +105,35 @@
         .nav-btn {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 10px;
+            gap: 10px;
+            padding: 10px 22px;
+            border-radius: 14px;
             font-size: 0.9rem;
             font-weight: 600;
             text-decoration: none;
-            color: var(--text-main);
+            color: var(--text-pure);
             border: 1px solid var(--card-border);
-            background: rgba(255, 255, 255, 0.02);
-            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         .nav-btn.dev-btn:hover {
-            border-color: rgba(0, 255, 136, 0.4);
-            background: rgba(0, 255, 136, 0.05);
-            transform: translateY(-1px);
+            border-color: rgba(0, 255, 135, 0.4);
+            background: rgba(0, 255, 135, 0.05);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 255, 135, 0.1);
         }
 
         .nav-btn.discord-btn {
-            background: var(--discord-color);
-            border-color: var(--discord-color);
+            background: var(--discord-blue);
+            border-color: var(--discord-blue);
         }
 
         .nav-btn.discord-btn:hover {
-            box-shadow: 0 0 15px rgba(88, 101, 242, 0.4);
-            transform: translateY(-1px);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 25px rgba(88, 101, 242, 0.4);
+            filter: brightness(1.1);
         }
 
         .nav-avatar {
@@ -117,239 +141,393 @@
             height: 24px;
             border-radius: 50%;
             object-fit: cover;
-            border: 1.5px solid #00ff88;
+            border: 2px solid var(--emerald);
         }
 
-        /* --- CONTENT MAIN CONTAINER --- */
-        .container {
-            width: 100%;
-            max-width: 540px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            margin-top: 20px;
-        }
-
-        /* --- HEADER --- */
+        /* --- HEADER AREA --- */
         .profile {
             text-align: center;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .avatar-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 50%;
+            background: var(--gradient-primary);
+            z-index: -1;
+            opacity: 0.7;
+            filter: blur(12px);
+            animation: pulseGlow 4s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.98); opacity: 0.5; }
+            100% { transform: scale(1.05); opacity: 0.8; }
         }
 
         .avatar {
-            width: 96px;
-            height: 96px;
+            width: 110px;
+            height: 110px;
             border-radius: 50%;
             object-fit: cover;
             border: 3px solid transparent;
-            background-image: var(--primary-gradient);
+            background-image: var(--gradient-primary);
             background-origin: border-box;
             background-clip: content-box, border-box;
-            box-shadow: 0 8px 32px rgba(0, 255, 136, 0.2);
-            margin-bottom: 16px;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .avatar:hover {
-            transform: scale(1.08) rotate(5deg);
+        .avatar-wrapper:hover .avatar {
+            transform: scale(1.08) rotate(4deg);
         }
 
         .profile h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            background: var(--primary-gradient);
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .tagline {
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1.05rem;
+            font-weight: 500;
         }
 
-        /* --- CARDS / BOXES --- */
+        /* --- PREMIUM GLASS BOXES --- */
         .section-box {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: var(--card-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 24px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+            transition: border-color 0.4s, box-shadow 0.4s;
+        }
+
+        .section-box:hover {
+            border-color: rgba(255, 255, 255, 0.09);
         }
 
         .section-box h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 16px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            letter-spacing: -0.3px;
+        }
+
+        /* --- CHANGELOG / DYNAMIC UPDATES --- */
+        #update-section {
+            border-left: 3px solid var(--emerald);
+            background: linear-gradient(160deg, rgba(0, 255, 135, 0.03) 0%, rgba(4, 6, 14, 0) 70%);
+        }
+
+        #update-section h3 {
+            justify-content: space-between;
+            color: var(--emerald);
+            width: 100%;
+        }
+
+        .live-status {
             display: flex;
             align-items: center;
             gap: 8px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            background: rgba(255, 255, 255, 0.04);
+            padding: 5px 12px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
-        /* Dynamic Update Banner Special Styling */
-        #update-section {
-            background: rgba(0, 255, 136, 0.03);
-            border-color: rgba(0, 255, 136, 0.2);
-            box-shadow: 0 0 20px rgba(0, 255, 136, 0.05);
+        .live-status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background-color: var(--emerald);
+            border-radius: 50%;
+            box-shadow: 0 0 12px var(--emerald);
+            animation: neonPulse 1.8s infinite;
         }
-        #update-section h3 {
-            color: #00ff88;
+
+        @keyframes neonPulse {
+            0% { transform: scale(0.9); opacity: 0.6; }
+            50% { transform: scale(1.1); opacity: 1; box-shadow: 0 0 16px var(--emerald); }
+            100% { transform: scale(0.9); opacity: 0.6; }
         }
+
+        .update-wrapper {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 18px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .update-header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--gradient-primary);
+            color: var(--bg-dark);
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 3px 10px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
         #update-text {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: #e5e7eb;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            color: #e2e8f0;
         }
 
-        /* --- BUTTONS & LINKS --- */
+        #update-text code {
+            background: rgba(255, 255, 255, 0.07);
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: var(--cyan);
+        }
+
+        /* --- INTERACTIVE BUTTONS --- */
         .links-container {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
         .link-btn {
             display: flex;
             align-items: center;
-            gap: 14px;
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.03);
+            justify-content: space-between;
+            padding: 20px 26px;
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--card-border);
-            border-radius: 14px;
+            border-radius: 18px;
             color: var(--text-main);
             text-decoration: none;
-            font-weight: 500;
-            font-size: 1rem;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            font-size: 1.05rem;
             position: relative;
             overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        .link-btn i {
-            font-size: 1.1rem;
-            background: var(--primary-gradient);
+        /* Glanzeffekt bei Hover */
+        .link-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-hover);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 0;
+        }
+
+        .link-btn-content {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .link-btn i.icon-main {
+            font-size: 1.35rem;
+            background: var(--gradient-primary);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             transition: transform 0.3s ease;
         }
 
+        .arrow-icon {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            position: relative;
+            z-index: 1;
+            transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s;
+        }
+
         .link-btn:hover {
-            transform: translateY(-2px);
-            background: var(--btn-hover-bg);
-            border-color: rgba(0, 188, 255, 0.4);
-            box-shadow: 0 4px 20px rgba(0, 188, 255, 0.15);
+            transform: translateY(-4px);
+            border-color: rgba(0, 240, 255, 0.3);
+            box-shadow: 0 12px 30px rgba(0, 240, 255, 0.1);
         }
 
-        .link-btn:hover i {
-            transform: scale(1.15);
+        .link-btn:hover::before {
+            opacity: 1;
         }
 
-        .link-btn:active {
-            transform: translateY(0);
+        .link-btn:hover i.icon-main {
+            transform: scale(1.2);
         }
 
+        .link-btn:hover .arrow-icon {
+            transform: translateX(6px);
+            color: var(--cyan);
+        }
+
+        /* --- DISCORD AD / BOTTOM INFO --- */
         .discord-text {
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.98rem;
             line-height: 1.6;
         }
 
         /* --- FOOTER --- */
         .footer {
             text-align: center;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         .footer p {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.3);
-            letter-spacing: 0.5px;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.2);
+            letter-spacing: 1px;
+        }
+
+        /* --- MOBILE OPTIMIZATIONS --- */
+        @media (max-width: 650px) {
+            .navbar { padding: 0 20px; height: 70px; }
+            body { padding-top: 110px; }
+            .nav-btn span { display: none; }
+            .profile h1 { font-size: 2.1rem; }
+            .section-box { padding: 22px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- DIE NEUE OBERE LEISTE -->
+    <!-- STYLISH NAVBAR -->
     <nav class="navbar">
         <a href="#" class="nav-logo">SynergyStation</a>
         <div class="nav-links">
-            <!-- Developers Button mit Profilbild -->
             <a href="developer.html" class="nav-btn dev-btn">
                 <img src="pictures/benkormos.profilbild.jpg" alt="Ben" class="nav-avatar">
-                Developers
+                <span>Developers</span>
             </a>
-            <!-- Discord Button -->
             <a href="https://dc.gg/ben" target="_blank" class="nav-btn discord-btn">
-                <i class="fab fa-discord"></i> Discord
+                <i class="fab fa-discord"></i> <span>Discord</span>
             </a>
         </div>
     </nav>
 
+    <!-- HUB CONTENT CONTAINER -->
     <div class="container">
         <header class="profile">
-            <img src="pictures/benkormos.profilbild.jpg" alt="Hub Logo" class="avatar">
+            <div class="avatar-wrapper">
+                <img src="pictures/benkormos.profilbild.jpg" alt="Hub Logo" class="avatar">
+            </div>
             <h1>SynergyStation Hub</h1>
             <p class="tagline">Wähle ein Profil aus, um die Links & Projekte zu sehen</p>
         </header>
 
+        <!-- LIVE CHANGELOG SYSTEM (AUS /UPDATES ORDNER) -->
         <section class="section-box" id="update-section" style="display: none;">
-            <h3>Letztes Update 🚀</h3>
-            <p id="update-text">Lade neueste Updates...</p>
+            <h3>
+                <span>System Updates 🚀</span>
+                <span class="live-status">Live-Check</span>
+            </h3>
+            <div class="update-wrapper">
+                <div class="update-header-badge"><i class="fas fa-history"></i> Latest Release</div>
+                <p id="update-text">Suche nach neuen Code-Schnittstellen...</p>
+            </div>
         </section>
 
+        <!-- PROFILE SELECTION -->
         <section class="section-box">
             <h3>Verfügbare Profile 👥</h3>
             <div class="links-container">
                 
                 <a href="benkormos.html" class="link-btn">
-                    <i class="fas fa-user-astronaut"></i> BenKormos
+                    <div class="link-btn-content">
+                        <i class="fas fa-user-astronaut icon-main"></i>
+                        <span>BenKormos</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 
                 <a href="julian" class="link-btn">
-                    <i class="fas fa-user-shield"></i> Julian442
+                    <div class="link-btn-content">
+                        <i class="fas fa-user-shield icon-main"></i>
+                        <span>Julian442</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
 
                 <a href="mexo" class="link-btn">
-                    <i class="fas fa-user-ninja"></i> Mexo
+                    <div class="link-btn-content">
+                        <i class="fas fa-user-ninja icon-main"></i>
+                        <span>Mexo</span>
+                    </div>
+                    <i class="fas fa-chevron-right arrow-icon"></i>
                 </a>
                 
             </div>
         </section>
 
+        <!-- JOIN COMMUNITY INFO -->
         <section class="section-box">
             <h3>Eigenes Profil hinzufügen? 🛠️</h3>
-            <p class="discord-text">Geh auf den Discord und melde dich, um deine eigene Page zu bekommen. Wir richten dir schnellstmöglich deinen eigenen Platz ein!</p>
+            <p class="discord-text">Erstelle deinen eigenen Fußabdruck! Melde dich einfach auf unserem Discord-Server bei einem Admin. Wir richten dir schnellstmöglich deine persönliche Page ein.</p>
         </section>
 
+        <!-- FOOTER -->
         <footer class="footer">
             <p>© 2026 SynergyStation Hub</p>
         </footer>
     </div>
 
+    <!-- ADVANCED AUTO-CHECK INTERACTION SCRIPT -->
     <script>
-        async function fetchLatestUpdate() {
+        async function fetchLatestUpdates() {
+            // Konfiguration für dein GitHub-Repository
             const owner = 'Benbroc'; 
             const repo = 'kaboom.github.io'; 
-            const path = 'update';
+            const path = 'updates'; // Fragt dediziert deinen gewünschten '/updates' Ordner ab
 
             const updateSection = document.getElementById('update-section');
             const updateText = document.getElementById('update-text');
 
             try {
                 const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`);
-                if (!response.ok) return; 
+                if (!response.ok) {
+                    console.log("Hinweis: Der Ordner '/updates' wurde auf GitHub nicht gefunden oder ist leer.");
+                    return; 
+                }
 
                 const items = await response.json();
+                
+                // Filtere Ordnerstrukturen im Format YYYY.MM.DD
                 const dateFolders = items
                     .filter(item => item.type === 'dir' && /^\d{4}\.\d{2}\.\d{2}$/.test(item.name))
                     .map(item => item.name)
-                    .sort(); 
+                    .sort(); // Chronologische Sortierung der Daten
 
                 if (dateFolders.length > 0) {
+                    // Wähle das aktuellste Daten-Verzeichnis
                     const latestFolder = dateFolders[dateFolders.length - 1];
                     const [year, month, day] = latestFolder.split('.');
                     
@@ -359,16 +537,21 @@
                     ];
                     
                     const monthName = months[parseInt(month, 10) - 1];
+                    const formattedDay = parseInt(day, 10);
 
-                    updateText.innerHTML = `Am <strong>${parseInt(day, 10)}. ${monthName} ${year}</strong> wurde eine neue Update-Datei im Update-Ordner veröffentlicht.`;
+                    // Formatiert die Ausgabe in ansprechendem Developer-Style
+                    updateText.innerHTML = `Am <strong>${formattedDay}. ${monthName} ${year}</strong> wurde eine neue Aktualisierung vorgenommen. Alle Änderungen sind aktiv im Verzeichnis <code>/${path}/${latestFolder}</code> hinterlegt.`;
+                    
+                    // Schaltet die Sektion flüssig sichtbar
                     updateSection.style.display = 'block';
                 }
             } catch (error) {
-                console.error("Fehler beim Laden der Updates:", error);
+                console.error("Fehler bei der Kontaktaufnahme mit der GitHub-API:", error);
             }
         }
 
-        document.addEventListener('DOMContentLoaded', fetchLatestUpdate);
+        // Live-Überprüfung starten, sobald das Dokument bereit ist
+        document.addEventListener('DOMContentLoaded', fetchLatestUpdates);
     </script>
 </body>
 </html>
