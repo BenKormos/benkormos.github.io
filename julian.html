@@ -7,70 +7,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-
-        body {
-            font-family: 'Zen Kaku Gothic New', sans-serif;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: url('background/bg_Julian442.png') no-repeat center center fixed;
-            background-size: cover;
-            color: #ffffff;
-        }
-
+        body { font-family: sans-serif; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: url('background/bg_Julian442.png') no-repeat center center fixed; background-size: cover; color: #ffffff; }
         .music-controls { position: absolute; top: 30px; left: 30px; display: flex; gap: 15px; z-index: 10; }
-        .control-btn {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            width: 45px; height: 45px;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .control-btn:hover { background: rgba(255, 107, 129, 0.4); }
-
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .avatar { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.3); }
-        .socials { display: flex; justify-content: center; gap: 20px; font-size: 1.5rem; margin-top: 20px; }
-        .socials a { color: white; opacity: 0.8; transition: 0.3s; }
-        .socials a:hover { opacity: 1; color: #ff8ca3; }
+        .control-btn { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.2); width: 45px; height: 45px; border-radius: 50%; color: white; cursor: pointer; }
+        .card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 25px; width: 90%; max-width: 450px; text-align: center; padding: 40px; }
     </style>
 </head>
 <body>
 
+    <!-- Wir benutzen hier keinen Ordnerpfad, um Fehler zu vermeiden -->
     <audio id="bg-audio" loop>
-        <source src="music/song_Julian442.mp3" type="audio/mpeg">
+        <source src="song_Julian442.mp3" type="audio/mpeg">
     </audio>
 
     <div class="music-controls">
         <button class="control-btn" id="play-pause-btn"><i class="fas fa-play" id="play-icon"></i></button>
-        <button class="control-btn" id="volume-btn"><i class="fas fa-volume-up" id="vol-icon"></i></button>
-    </div>
-
-    <div class="card">
-        <img src="pictures/julian.profilbild.png" class="avatar" alt="Avatar">
-        <h1>Julian</h1>
-        <p>CONTENT CREATOR • SHARING VIBES</p>
-        
-        <div class="socials">
-            <a href="https://twitch.tv/julian442_"><i class="fab fa-twitch"></i></a>
-            <a href="https://youtube.com/@Julian_2044"><i class="fab fa-youtube"></i></a>
-            <a href="https://dc.gg/ben"><i class="fab fa-discord"></i></a>
-        </div>
     </div>
 
     <script>
@@ -78,34 +29,17 @@
         const playBtn = document.getElementById('play-pause-btn');
         const playIcon = document.getElementById('play-icon');
 
-        // Funktion zum Starten der Musik
-        function startAudio() {
-            audio.play().then(() => {
-                playIcon.className = "fas fa-pause";
-            }).catch(e => console.log("Autoplay blockiert, warte auf Klick."));
-        }
-
-        // Musik startet automatisch beim ersten Klick irgendwo auf die Seite
-        document.body.addEventListener('click', () => {
-            startAudio();
-        }, { once: true });
-
-        // Manuelle Steuerung
-        playBtn.onclick = (e) => {
-            e.stopPropagation();
+        playBtn.onclick = () => {
             if (audio.paused) {
-                audio.play();
-                playIcon.className = "fas fa-pause";
+                audio.play().then(() => {
+                    playIcon.className = "fas fa-pause";
+                }).catch(err => {
+                    console.error("Audio-Fehler: Datei unter 'song_Julian442.mp3' nicht gefunden!", err);
+                });
             } else {
                 audio.pause();
                 playIcon.className = "fas fa-play";
             }
-        };
-
-        document.getElementById('volume-btn').onclick = (e) => {
-            e.stopPropagation();
-            audio.muted = !audio.muted;
-            document.getElementById('vol-icon').className = audio.muted ? "fas fa-volume-mute" : "fas fa-volume-up";
         };
     </script>
 </body>
