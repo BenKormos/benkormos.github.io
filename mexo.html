@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mexo | Hub</title>
     
+    <!-- Optimiertes Favicon für PNG-Bilder mit Transparenz -->
     <link class="icon" type="image/png" sizes="32x32" href="pictures/mexo.profilbild.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -78,7 +79,6 @@
             flex-direction: column;
             align-items: center;
             gap: 20px;
-            transition: opacity 0.5s ease;
         }
 
         .back-link {
@@ -397,109 +397,6 @@
             opacity: 0.85;
             z-index: 10;
         }
-
-        /* --- STYLING FÜR DAS FAKE-HACKING (Überlagert die Seite) --- */
-        #hacking-screen {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: #000000;
-            color: #03a01d;
-            font-family: 'Courier New', Courier, monospace;
-            padding: 30px;
-            box-sizing: border-box;
-            z-index: 99999; /* Schiebt sich über absolut alles */
-            text-shadow: 0 0 5px #03a01d;
-            overflow: hidden;
-        }
-
-        /* Retro CRT Röhren-Effekt */
-        #hacking-screen::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 100000;
-            background-size: 100% 2px, 3px 100%;
-            pointer-events: none;
-        }
-
-        .terminal-content {
-            max-width: 800px;
-            margin: 40px auto 0 auto;
-        }
-
-        .terminal-line {
-            visibility: hidden;
-            white-space: nowrap;
-            overflow: hidden;
-            margin-bottom: 12px;
-            font-size: 1.1rem;
-        }
-
-        /* Startet die Terminal-Animationen sequentiell */
-        .trigger-hacking .terminal-line:nth-child(1) { animation: typeText 0.4s steps(40) forwards; animation-delay: 0.2s; visibility: visible; }
-        .trigger-hacking .terminal-line:nth-child(2) { animation: typeText 0.4s steps(40) forwards; animation-delay: 0.8s; visibility: visible; }
-        .trigger-hacking .terminal-line:nth-child(3) { animation: typeText 0.4s steps(40) forwards; animation-delay: 1.4s; visibility: visible; }
-        .trigger-hacking .terminal-line:nth-child(4) { animation: typeText 0.4s steps(40) forwards; animation-delay: 2.0s; visibility: visible; }
-        .trigger-hacking .terminal-line:nth-child(5) { animation: showElement 0s forwards; animation-delay: 2.5s; }
-        .trigger-hacking .terminal-line:nth-child(6) { animation: typeText 0.4s steps(40) forwards; animation-delay: 3.8s; visibility: visible; }
-
-        .fake-progress {
-            display: inline-block;
-            width: 250px;
-            border: 1px solid #03a01d;
-            height: 14px;
-            vertical-align: middle;
-            margin-left: 10px;
-        }
-
-        .fake-progress-bar {
-            width: 0%;
-            height: 100%;
-            background-color: #03a01d;
-        }
-
-        .trigger-hacking .fake-progress-bar {
-            animation: loadBar 1.0s ease-in-out forwards;
-            animation-delay: 2.6s;
-        }
-
-        .hacked-alert {
-            border: 2px solid #ff0000;
-            background-color: rgba(255, 0, 0, 0.15);
-            color: #ff0000;
-            padding: 20px;
-            margin-top: 40px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 1.4rem;
-            text-shadow: 0 0 8px #ff0000;
-            opacity: 0;
-            border-radius: 4px;
-        }
-
-        .trigger-hacking .hacked-alert {
-            animation: showElement 0.3s forwards, blinkAlert 0.6s infinite alternate;
-            animation-delay: 4.4s;
-        }
-
-        .terminal-cursor {
-            display: inline-block;
-            width: 10px;
-            height: 16px;
-            background-color: #03a01d;
-            animation: blinkAlert 0.5s infinite alternate;
-        }
-
-        @keyframes typeText { from { width: 0; } to { width: 100%; } }
-        @keyframes showElement { to { opacity: 1; visibility: visible; } }
-        @keyframes loadBar { to { width: 100%; } }
-        @keyframes blinkAlert { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -514,7 +411,7 @@
         <i class="fas fa-arrow-left"></i>
     </a>
 
-    <div class="container" id="main-hub-interface">
+    <div class="container">
         
         <header class="profile">
             <div class="avatar-wrapper">
@@ -531,6 +428,7 @@
                 <p class="rizz-text">Ein Sigma Rizzler</p>
             </section>
 
+            <!-- Custom Musik-Player -->
             <section class="player-box">
                 <h3>Music</h3>
                 <div class="track-info">
@@ -585,6 +483,7 @@
         </footer>
     </div>
 
+    <!-- View Counter HTML Element (Hier kannst du 'Aufrufe' durch ein beliebiges Wort ersetzen) -->
     <div class="view-counter">
         <i class="fas fa-eye"></i>
         <span id="view-count">0</span> Views
@@ -592,28 +491,7 @@
 
     <div id="reset-log"></div>
 
-
-    <div id="hacking-screen">
-        <div class="terminal-content">
-            <div class="terminal-line">> Overriding Mexo Hub Framework... DONE.</div>
-            <div class="terminal-line">> Injecting local buffer overflow to system core...</div>
-            <div class="terminal-line">> Extracting configuration keys and access tokens...</div>
-            <div class="terminal-line">> Wiping background protocols...</div>
-            <div class="terminal-line">
-                > Compiling exploit payload: <div class="fake-progress"><div class="fake-progress-bar"></div></div>
-            </div>
-            <div class="terminal-line">> Establishing secure tunnel to Nuggets HQ... SUCCESS.</div>
-            
-            <div class="hacked-alert">
-                🏴‍☠️ HACKED BY NUGGETS 🏴‍☠️<br>
-                YOUR HUB BELONGS TO US NOW.
-            </div>
-
-            <p><span class="terminal-cursor"></span></p>
-        </div>
-    </div>
-
-
+    <!-- Musik & Counter Script -->
     <script>
         const songs = [
             { title: 'BLN - Ak Ausserkontrolle', src: '/music/mexo/Tuff.mp3' },
@@ -728,6 +606,10 @@
         // --- VIEW COUNTER SCRIPT MIT 12-STUNDEN-SPERRE ---
         const resetLog = document.getElementById('reset-log');
 
+        // --- Reset per URL-Parameter: ?reset=true ---
+        // Setzt den lokalen View-Zähler und die 12h-Sperre in diesem Browser zurück.
+        // --- Beliebigen Wert setzen per URL-Parameter: ?views=ZAHL ---
+        // Setzt den lokalen View-Zähler direkt auf die angegebene Zahl.
         const params = new URLSearchParams(window.location.search);
         const shouldReset = params.get('reset') === 'true';
         const viewsParam = params.get('views');
@@ -741,6 +623,7 @@
             document.getElementById('view-count').textContent = 0;
             resetLog.textContent = "Views wurden auf 0 zurückgesetzt ✅";
 
+            // Parameter aus der URL entfernen, damit ein Reload nicht erneut resettet
             params.delete('reset');
             const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
             window.history.replaceState({}, '', newUrl);
@@ -755,6 +638,7 @@
             document.getElementById('view-count').textContent = newValue;
             resetLog.textContent = `Views wurden auf ${newValue} gesetzt ✅`;
 
+            // Parameter aus der URL entfernen, damit ein Reload nicht erneut setzt
             params.delete('views');
             const newUrl = window.location.pathname + (params.toString() ? `?${params.toString()}` : '');
             window.history.replaceState({}, '', newUrl);
@@ -789,27 +673,6 @@
         } else {
             updateViews();
         }
-
-        // --- NEU: JUMPSCARE / CLICK TO HACK TRIGGER ---
-        // Wartet auf einen Klick irgendwo auf dem Dokument, um den Exploit auszulösen
-        document.addEventListener('click', function triggerHackedMode(e) {
-            // Verhindert Endlosschleifen, falls man auf das Terminal klickt
-            if (e.target.closest('#hacking-screen')) return;
-
-            // Stoppe die Musik, falls sie läuft
-            pauseSong();
-
-            // Blende das Hacking-Screen-Overlay ein
-            const hackScreen = document.getElementById('hacking-screen');
-            hackScreen.style.display = 'block';
-            hackScreen.classList.add('trigger-hacking');
-
-            // Ändere den Browsertitel
-            document.title = "⚠️ CRITICAL SYSTEM FAILURE ⚠️";
-
-            // Event-Listener entfernen, damit es nur einmal triggert
-            document.removeEventListener('click', triggerHackedMode);
-        });
     </script>
 
 </body>
