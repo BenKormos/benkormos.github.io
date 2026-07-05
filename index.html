@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Linkhub</title>
+    <title>SynergyStation Hub</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="benkormos/benkormos.jpg">
@@ -18,9 +18,15 @@
         <!-- Hub Header -->
         <header class="profile">
             <img src="benkormos/benkormos.jpg" alt="Hub Logo" class="avatar">
-            <h1>BenKormos Hub</h1>
+            <h1>SynergyStation Hub</h1>
             <p class="tagline">Wähle ein Profil aus, um die Links & Projekte zu sehen</p>
         </header>
+
+        <!-- Dynamic Update Banner -->
+        <section class="section-box" id="update-section" style="display: none; border-color: rgba(0, 255, 136, 0.3);">
+            <h3>Letztes Update 🚀</h3>
+            <p id="update-text">Lade neueste Updates...</p>
+        </section>
 
         <!-- Profiles Selection Section -->
         <section class="section-box">
@@ -54,5 +60,56 @@
         </footer>
     </div>
 
+    <!-- JavaScript für die automatische Update-Erkennung via GitHub API -->
+    <script>
+        async function fetchLatestUpdate() {
+            // Ersetze 'DEIN_GITHUB_NAME' und 'REPOSITORY_NAME' mit deinen echten GitHub-Daten!
+            const owner = 'Benbroc'; 
+            const repo = 'kaboom.github.io'; // Oder wie dein Repository heißt
+            const path = 'update';
+
+            const updateSection = document.getElementById('update-section');
+            const updateText = document.getElementById('update-text');
+
+            try {
+                const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`);
+                
+                if (!response.ok) return; // Wenn der Ordner nicht existiert oder leer ist, bleibt die Box unsichtbar
+
+                const items = await response.ok ? await response.json() : [];
+                
+                // Filtere nur nach Ordnern, die dem Format YYYY.MM.DD entsprechen
+                const dateFolders = items
+                    .filter(item => item.type === 'dir' && /^\d{4}\.\d{2}\.\d{2}$/.test(item.name))
+                    .map(item => item.name)
+                    .sort(); // Sortiert aufsteigend
+
+                if (dateFolders.length > 0) {
+                    // Nimm den neuesten Ordner (den letzten nach der Sortierung)
+                    const latestFolder = dateFolders[dateFolders.length - 1];
+                    
+                    // Splitte das Format "2026.12.17" auf
+                    const [year, month, day] = latestFolder.split('.');
+                    
+                    // Monatsnamen für die deutsche Anzeige
+                    const months = [
+                        "Januar", "Februar", "März", "April", "Mai", "Juni",
+                        "Juli", "August", "September", "Oktober", "November", "Dezember"
+                    ];
+                    
+                    const monthName = months[parseInt(month, 10) - 1];
+
+                    // Text anpassen und die Box sichtbar machen
+                    updateText.innerHTML = `Am <strong>${parseInt(day, 10)}. ${monthName} ${year}</strong> wurde eine neue Update-Datei im Update-Ordner veröffentlicht.`;
+                    updateSection.style.display = 'block';
+                }
+            } catch (error) {
+                console.error("Fehler beim Laden der Updates:", error);
+            }
+        }
+
+        // Führe die Funktion beim Laden der Seite aus
+        document.addEventListener('DOMContentLoaded', fetchLatestUpdate);
+    </script>
 </body>
 </html>
