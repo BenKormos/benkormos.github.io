@@ -6,7 +6,7 @@
     <title>Mexo | Hub</title>
     
     <!-- Optimiertes Favicon für PNG-Bilder mit Transparenz -->
-    <link rel="icon" type="image/png" sizes="32x32" href="pictures/mexo.profilbild.png">
+    <link class="icon" type="image/png" sizes="32x32" href="pictures/mexo.profilbild.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
@@ -362,6 +362,30 @@
             font-size: 0.75rem;
             color: #3a3f4a;
         }
+
+        /* View Counter Styling unten rechts */
+        .view-counter {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            padding: 8px 14px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 10;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .view-counter i {
+            color: var(--accent-cyan);
+        }
     </style>
 </head>
 <body>
@@ -448,13 +472,18 @@
         </footer>
     </div>
 
-    <!-- Musik-Script -->
+    <!-- View Counter HTML Element (Hier kannst du 'Aufrufe' durch ein beliebiges Wort ersetzen) -->
+    <div class="view-counter">
+        <i class="fas fa-eye"></i>
+        <span id="view-count">0</span> Views
+    </div>
+
+    <!-- Musik & Counter Script -->
     <script>
-        // Pfade wurden mit /mexo/ absolut ab der Domain-Root gesetzt
         const songs = [
-            { title: 'BLN - Ak Ausserkontrolle', src: '/music/mexo/Tuff.mp3' },
-            { title: 'goosebumps - Travis Scott', src: '/music/mexo/Tuff2.mp3' },
-            { title: 'Pink Fluffy Dancing on Rainbows', src: '/music/mexo/Tuff3.mp3' }
+            { title: 'BLN - Ak Ausserkontrolle', src: '/music/mexo/tuff.mp3' },
+            { title: 'goosebumps - Travis Scott', src: '/music/mexo/tuff2.mp3' },
+            { title: 'Pink Fluffy Dancing on Rainbows', src: '/music/mexo/tuff3.mp3' }
         ];
 
         let currentSongIndex = 0;
@@ -560,6 +589,31 @@
         });
 
         loadSong(songs[currentSongIndex]);
+
+        // --- VIEW COUNTER SCRIPT MIT 12-STUNDEN-SPERRE ---
+        function updateViews() {
+            let currentViews = localStorage.getItem('mexo_hub_views');
+            let lastViewTime = localStorage.getItem('mexo_hub_last_time');
+            
+            const now = new Date().getTime();
+            const twelveHours = 12 * 60 * 60 * 1000;
+
+            if (currentViews === null) {
+                currentViews = 1;
+                localStorage.setItem('mexo_hub_views', currentViews);
+                localStorage.setItem('mexo_hub_last_time', now);
+            } else {
+                if (!lastViewTime || (now - parseInt(lastViewTime)) >= twelveHours) {
+                    currentViews = parseInt(currentViews) + 1;
+                    localStorage.setItem('mexo_hub_views', currentViews);
+                    localStorage.setItem('mexo_hub_last_time', now);
+                }
+            }
+            
+            document.getElementById('view-count').textContent = currentViews;
+        }
+        
+        updateViews();
     </script>
 
 </body>
