@@ -14,12 +14,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            /* Pfad auf den Ordner "background" angepasst */
             background: url('background/bg_Julian442.png') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
         }
 
-        /* Musik-Controls */
         .music-controls { position: absolute; top: 30px; left: 30px; display: flex; gap: 15px; z-index: 10; }
         .control-btn {
             background: rgba(255, 255, 255, 0.1);
@@ -33,28 +33,9 @@
         }
         .control-btn:hover { background: rgba(255, 107, 129, 0.4); }
 
-        /* Zurück-Button */
-        .back-btn {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            padding: 10px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            color: white;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: 0.3s;
-        }
-        .back-btn:hover { background: rgba(255, 255, 255, 0.2); }
-
-        /* Glassmorphism Karte */
         .card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 25px;
             width: 90%;
@@ -65,10 +46,6 @@
         }
 
         .avatar { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 15px; border: 2px solid rgba(255,255,255,0.3); }
-        .sakura { font-size: 3rem; margin-bottom: 10px; }
-        h1 { font-size: 2rem; margin-bottom: 5px; }
-        .kanji { color: #ff8ca3; font-size: 0.9rem; margin-bottom: 20px; display: block; }
-        
         .socials { display: flex; justify-content: center; gap: 20px; font-size: 1.5rem; margin-top: 20px; }
         .socials a { color: white; opacity: 0.8; transition: 0.3s; }
         .socials a:hover { opacity: 1; color: #ff8ca3; }
@@ -76,25 +53,21 @@
 </head>
 <body>
 
-    <!-- Pfad angepasst auf music/song_Julian442.mp3 -->
-    <audio id="bg-audio" src="music/song_Julian442.mp3" loop></audio>
+    <audio id="bg-audio" loop>
+        <source src="music/song_Julian442.mp3" type="audio/mpeg">
+    </audio>
 
     <div class="music-controls">
         <button class="control-btn" id="play-pause-btn"><i class="fas fa-play" id="play-icon"></i></button>
         <button class="control-btn" id="volume-btn"><i class="fas fa-volume-up" id="vol-icon"></i></button>
     </div>
 
-    <a href="https://synergystation.github.io/" class="back-btn"><i class="fas fa-arrow-left"></i> SynergyStation</a>
-
     <div class="card">
         <img src="pictures/julian.profilbild.png" class="avatar" alt="Avatar">
-        <div class="sakura">🌸</div>
         <h1>Julian</h1>
-        <span class="kanji">ジュリアン</span>
         <p>CONTENT CREATOR • SHARING VIBES</p>
         
         <div class="socials">
-            <a href="#"><i class="fab fa-spotify"></i></a>
             <a href="https://twitch.tv/julian442_"><i class="fab fa-twitch"></i></a>
             <a href="https://youtube.com/@Julian_2044"><i class="fab fa-youtube"></i></a>
             <a href="https://dc.gg/ben"><i class="fab fa-discord"></i></a>
@@ -110,8 +83,9 @@
 
         playBtn.onclick = () => {
             if (audio.paused) {
-                audio.play();
-                playIcon.className = "fas fa-pause";
+                audio.play().then(() => {
+                    playIcon.className = "fas fa-pause";
+                }).catch(err => alert("Audio-Datei konnte nicht geladen werden."));
             } else {
                 audio.pause();
                 playIcon.className = "fas fa-play";
