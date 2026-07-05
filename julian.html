@@ -14,8 +14,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            /* Pfad zum Hintergrundbild im Ordner "background" */
-            background: url('background/bg_Julian442.png') no-repeat center center fixed;
+            /* Datei liegt jetzt direkt im Hauptordner */
+            background: url('bg_Julian442.png') no-repeat center center fixed;
             background-size: cover;
             color: #ffffff;
         }
@@ -53,9 +53,9 @@
 </head>
 <body>
 
-    <!-- Pfad zur Musik im Ordner "music" -->
+    <!-- Datei liegt jetzt direkt im Hauptordner -->
     <audio id="bg-audio" loop>
-        <source src="music/song_Julian442.mp3" type="audio/mpeg">
+        <source src="song_Julian442.mp3" type="audio/mpeg">
     </audio>
 
     <div class="music-controls">
@@ -64,7 +64,7 @@
     </div>
 
     <div class="card">
-        <img src="pictures/julian.profilbild.png" class="avatar" alt="Avatar">
+        <img src="julian.profilbild.png" class="avatar" alt="Avatar">
         <h1>Julian</h1>
         <p>CONTENT CREATOR • SHARING VIBES</p>
         
@@ -87,8 +87,7 @@
                 audio.play().then(() => {
                     playIcon.className = "fas fa-pause";
                 }).catch(err => {
-                    console.error("Fehler:", err);
-                    alert("Datei 'music/song_Julian442.mp3' wurde nicht gefunden.");
+                    alert("Datei 'song_Julian442.mp3' konnte nicht geladen werden. Bitte Dateiname prüfen.");
                 });
             } else {
                 audio.pause();
