@@ -5,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Julian442 - Links & Projects</title>
     
-    <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="julian.profilbild.png">
     
-    <!-- FontAwesome für moderne Social-Media-Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Integriertes CSS für maximale Unabhängigkeit mit Fallbacks -->
     <style>
-        /* Basis-Layout & Fallback-Hintergrund */
+        /* Basis-Layout */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background-color: #12111a; 
@@ -24,13 +21,30 @@
             justify-content: center;
             align-items: flex-start;
             min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* Klasse wird per JS gesetzt, wenn der Custom Background existiert */
-        body.has-bg {
-            background: linear-gradient(rgba(18, 17, 26, 0.85), rgba(18, 17, 26, 0.85)), 
+        /* Eigener Layer für das Hintergrundbild, damit NUR das Bild geblurt wird */
+        body::before {
+            content: "";
+            position: fixed;
+            top: -10px; /* Leicht vergrößert, damit an den Rändern durch den Blur kein weißer Rand entsteht */
+            left: -10px;
+            width: calc(100% + 20px);
+            height: calc(100% + 20px);
+            
+            /* Hier wird dein Bild geladen. Die Maske dunkelt es leicht ab, damit man Text besser liest */
+            background: linear-gradient(rgba(18, 17, 26, 0.75), rgba(18, 17, 26, 0.75)), 
                         url('julian.hintergrund.png') no-repeat center center fixed;
             background-size: cover;
+            
+            /* Der gewünschte leichte Blur-Effekt für das Hintergrundbild */
+            filter: blur(6px);
+            -webkit-filter: blur(6px);
+            
+            z-index: -1; /* Schiebt das Bild hinter den Inhalt */
+            pointer-events: none;
         }
 
         /* Haupt-Container */
@@ -41,6 +55,8 @@
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            position: relative;
+            z-index: 1;
         }
 
         /* Zurück zum Hub Link */
@@ -117,16 +133,14 @@
             text-align: center;
         }
 
-        /* Boxen / Cards (Immer solide abgetönt) */
+        /* Boxen / Cards (Bleiben solide dunkelgrau) */
         .section-box {
-            background: rgba(30, 28, 41, 0.75);
+            background: rgba(30, 28, 41, 0.85); /* Etwas deckender für perfekte Lesbarkeit über dem Hintergrund */
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             padding: 24px;
             margin-bottom: 24px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
             width: 100%;
             box-sizing: border-box;
         }
@@ -213,7 +227,6 @@
         </a>
 
         <header class="profile">
-            <!-- Container fängt kaputte Bildlinks ab -->
             <div class="avatar-container" id="avatar-box">
                 <img src="julian.profilbild.png" id="profile-img" alt="Profile" style="display:none;">
                 <i class="fas fa-user avatar-fallback" id="fallback-icon"></i>
@@ -251,13 +264,11 @@
         </footer>
     </div>
 
-    <!-- JavaScript Fallback-Handler -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const profileImg = document.getElementById('profile-img');
             const fallbackIcon = document.getElementById('fallback-icon');
 
-            // 1. Profilbild prüfen
             profileImg.onload = function() {
                 profileImg.style.display = 'block';
                 fallbackIcon.style.display = 'none';
@@ -266,15 +277,8 @@
                 profileImg.style.display = 'none';
                 fallbackIcon.style.display = 'block';
             };
-            // Trigger laden falls gecached
+            
             if (profileImg.complete) profileImg.onload();
-
-            // 2. Hintergrundbild prüfen ohne 404 Fehler im UI zu triggern
-            const bgImg = new Image();
-            bgImg.src = 'julian.hintergrund.png';
-            bgImg.onload = function() {
-                document.body.classList.add('has-bg');
-            };
         });
     </script>
 </body>
