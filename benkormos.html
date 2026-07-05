@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BenKormos</title>
+    <title>BenKormos | Cyber Deck</title>
     
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="pictures/benkormos.profilbild.jpg">
@@ -11,22 +11,28 @@
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Radical Cyber-Dashboard Design -->
     <style>
         :root {
-            --bg-main: #0a0a0f;
-            --bg-card: rgba(18, 18, 31, 0.75);
-            --accent-cyan: #00f0ff;
-            --accent-purple: #9d4edd;
-            --text-main: #f0f0f5;
-            --text-muted: #8f92a9;
-            --border-glow: rgba(0, 240, 255, 0.15);
+            --bg-base: #06060c;
+            --glass-bg: rgba(14, 14, 28, 0.65);
+            --glass-border: rgba(255, 255, 255, 0.07);
+            --neon-cyan: #00f0ff;
+            --neon-purple: #bd00ff;
+            --neon-pink: #ff007f;
+            --text-main: #f1f1f7;
+            --text-muted: #9497ad;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.25s ease;
         }
 
         body {
-            font-family: 'Consolas', 'Courier New', Courier, monospace;
-            background: linear-gradient(rgba(10, 10, 15, 0.6), rgba(10, 10, 15, 0.85)), url('image_365029.png') no-repeat center center fixed;
-            background-size: cover;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle at 80% 20%, rgba(189, 0, 255, 0.15), transparent 40%),
+                        radial-gradient(circle at 20% 80%, rgba(0, 240, 255, 0.12), transparent 40%),
+                        linear-gradient(135deg, #080810 0%, #030307 100%);
             color: var(--text-main);
             margin: 0;
             padding: 0;
@@ -34,524 +40,548 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            box-sizing: border-box;
+            overflow-x: hidden;
         }
 
-        /* Haupt-Layout als modernes Grid */
+        /* Haupt-Container */
         .dashboard {
             width: 100%;
-            max-width: 1000px;
-            margin: 20px;
-            padding: 20px;
+            max-width: 1100px;
+            margin: 40px 20px;
             display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 25px;
-            box-sizing: border-box;
-            backdrop-filter: blur(8px);
+            grid-template-columns: 340px 1fr;
+            gap: 30px;
         }
 
-        /* LINKER PANEL: Profil & Status */
-        .left-panel {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+        /* LINKES PROFILPANEL */
+        .profile-side {
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 24px;
-            padding: 30px 20px;
+            padding: 40px 25px;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4),
+                        inset 0 1px 0 rgba(255, 255, 255, 0.1);
             height: fit-content;
         }
 
-        /* Zurück-Link dezent oben links platziert */
-        .back-link {
+        .back-hub {
             position: absolute;
-            top: 20px;
-            left: 20px;
+            top: 25px;
+            left: 25px;
             color: var(--text-muted);
             text-decoration: none;
             font-size: 0.85rem;
-            transition: color 0.2s;
-        }
-        .back-link:hover {
-            color: var(--accent-cyan);
+            font-weight: 600;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .avatar-wrapper {
+        .back-hub:hover {
+            color: var(--neon-cyan);
+            text-shadow: 0 0 8px var(--neon-cyan);
+        }
+
+        .avatar-container {
             position: relative;
             margin-top: 20px;
+            margin-bottom: 25px;
+        }
+
+        .avatar-glow {
+            position: absolute;
+            top: 0; left: 0; width: 140px; height: 140px;
+            border-radius: 32px;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            filter: blur(15px);
+            opacity: 0.4;
+            z-index: 1;
         }
 
         .avatar {
-            width: 130px;
-            height: 130px;
-            border-radius: 20px;
+            width: 140px;
+            height: 140px;
+            border-radius: 32px;
             object-fit: cover;
-            border: 2px solid var(--accent-cyan);
-            box-shadow: 0 0 20px var(--border-glow);
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            z-index: 2;
+            border: 2px solid rgba(255, 255, 255, 0.1);
         }
 
-        .left-panel:hover .avatar {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.3);
+        .profile-side:hover .avatar {
+            transform: scale(1.03) rotate(1deg);
+            border-color: var(--neon-cyan);
         }
 
-        /* Typewriter Effekt */
-        .typewriter-container {
-            display: flex;
-            justify-content: center;
-            margin: 25px 0 5px 0;
-            max-width: 100%;
+        .username {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, #fff, #b9bbcf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 0 0 6px 0;
         }
 
-        .typewriter-text {
-            font-size: 1.6rem;
-            font-weight: bold;
-            white-space: nowrap;
-            overflow: hidden;
-            border-right: 2px solid var(--accent-cyan);
-            color: #ffffff;
-            animation: 
-                typing 2s steps(9, end) forwards,
-                blink 0.75s step-end infinite alternate;
-        }
-
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes blink {
-            from, to { border-color: transparent; }
-            50% { border-color: var(--accent-cyan); }
-        }
-
-        .tagline {
-            font-size: 0.8rem;
-            color: var(--accent-purple);
+        .rank-tag {
+            font-size: 0.75rem;
+            font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin: 0 0 25px 0;
-            font-weight: bold;
+            color: var(--neon-purple);
+            background: rgba(189, 0, 255, 0.1);
+            padding: 5px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(189, 0, 255, 0.2);
+            margin-bottom: 35px;
         }
 
-        /* Quick Social Links im linken Panel */
-        .social-dock {
+        .social-grid {
             display: flex;
-            gap: 15px;
-            margin-top: auto;
+            gap: 12px;
+            width: 100%;
+            justify-content: center;
         }
 
-        .social-icon {
+        .social-btn {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--glass-border);
             color: var(--text-muted);
-            font-size: 1.3rem;
-            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
             text-decoration: none;
         }
 
-        .social-icon:hover {
-            color: var(--accent-cyan);
-            transform: scale(1.15);
+        .social-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
         }
+        .social-btn.gh:hover { border-color: #fff; color: #fff; }
+        .social-btn.yt:hover { border-color: #ff0000; color: #ff0000; }
+        .social-btn.tw:hover { border-color: #9146ff; color: #9146ff; }
+        .social-btn.dc:hover { border-color: #5865f2; color: #5865f2; }
 
-        /* RECHTER PANEL: Content Grid */
-        .right-panel {
+        /* RECHTER PANELSBEREICH */
+        .content-side {
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 25px;
         }
 
         .card {
-            background: var(--bg-card);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            transition: border-color 0.3s;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 30px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
 
-        .card:hover {
-            border-color: rgba(0, 240, 255, 0.2);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+            pointer-events: none;
         }
 
         .card h3 {
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--accent-cyan);
+            margin: 0 0 20px 0;
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            color: #fff;
+        }
+
+        .card h3 i {
+            color: var(--neon-cyan);
         }
 
         .card p {
-            font-family: sans-serif;
             font-size: 0.95rem;
             line-height: 1.6;
             color: var(--text-muted);
-            margin: 0 0 10px 0;
+            margin: 0 0 15px 0;
+        }
+        .card p:last-child { margin-bottom: 0; }
+
+        /* NEUER IMMERSIVER AUDIO PLAYER */
+        .audio-deck {
+            background: linear-gradient(135deg, rgba(16, 16, 36, 0.8), rgba(8, 8, 20, 0.8));
+            border: 1px solid rgba(0, 240, 255, 0.15);
         }
 
-        /* --- NEUE EIGENE CYBER MUSIC PLAYER KISTE --- */
-        .player-box {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .player-interface {
+        .player-main {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 240, 255, 0.15);
-            padding: 15px 20px;
-            border-radius: 14px;
-            flex-wrap: wrap;
-            gap: 15px;
+            gap: 20px;
+            background: rgba(0, 0, 0, 0.25);
+            padding: 20px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            margin-bottom: 20px;
         }
 
-        .now-playing {
+        .track-info {
             display: flex;
             flex-direction: column;
             gap: 4px;
-            min-width: 150px;
+            flex: 1;
         }
 
-        .now-playing .title {
-            color: #fff;
-            font-size: 0.95rem;
-            font-weight: bold;
-        }
-
-        .now-playing .status {
-            color: var(--accent-cyan);
-            font-size: 0.75rem;
+        .track-status {
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            color: var(--neon-pink);
+            font-weight: 700;
         }
 
-        .player-controls {
+        .track-name {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 280px;
+        }
+
+        .controls-cluster {
             display: flex;
             align-items: center;
-            gap: 14px;
+            gap: 12px;
         }
 
-        .player-btn {
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 1.1rem;
+        .action-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
             cursor: pointer;
-            transition: all 0.2s;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
+            font-size: 0.95rem;
         }
 
-        .player-btn:hover {
-            color: var(--accent-cyan);
-            text-shadow: 0 0 8px var(--accent-cyan);
-            transform: scale(1.1);
+        .action-btn:hover {
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
+            transform: scale(1.05);
         }
 
-        .player-btn.play-toggle {
-            background: rgba(0, 240, 255, 0.1);
-            border: 1px solid var(--accent-cyan);
-            width: 40px;
-            height: 40px;
+        .action-btn.master-play {
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            color: var(--bg-base);
+            border: none;
+            font-size: 1.1rem;
         }
 
-        .player-btn.play-toggle:hover {
-            background: var(--accent-cyan);
-            color: var(--bg-main);
-            box-shadow: 0 0 12px var(--accent-cyan);
+        .action-btn.master-play:hover {
+            background: var(--neon-cyan);
+            color: var(--bg-base);
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
         }
 
-        .volume-container {
+        .volume-mix {
             display: flex;
             align-items: center;
             gap: 10px;
-            min-width: 120px;
+            width: 130px;
         }
 
-        .volume-container i {
-            font-size: 0.9rem;
+        .volume-mix i {
             color: var(--text-muted);
-            width: 16px;
+            font-size: 0.9rem;
         }
 
-        .volume-slider {
+        .volume-bar {
             -webkit-appearance: none;
             width: 100%;
             height: 4px;
-            border-radius: 2px;
+            border-radius: 4px;
             background: rgba(255, 255, 255, 0.1);
             outline: none;
             cursor: pointer;
         }
 
-        .volume-slider::-webkit-slider-thumb {
+        .volume-bar::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 12px;
             height: 12px;
             border-radius: 50%;
-            background: var(--accent-cyan);
-            box-shadow: 0 0 6px var(--accent-cyan);
+            background: #fff;
+            box-shadow: 0 0 8px rgba(255,255,255,0.5);
+        }
+        .volume-bar::-webkit-slider-thumb:hover {
+            background: var(--neon-cyan);
         }
 
-        /* Playlist Liste */
-        .playlist {
-            list-style: none;
-            padding: 0;
-            margin: 5px 0 0 0;
+        /* Playlist */
+        .track-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            padding: 0;
+            margin: 0;
+            list-style: none;
         }
 
-        .playlist-item {
+        .track-node {
             display: flex;
             align-items: center;
             justify-content: space-between;
+            padding: 14px 20px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.04);
-            padding: 10px 15px;
-            border-radius: 10px;
+            border-radius: 14px;
             cursor: pointer;
-            transition: all 0.2s;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
         }
 
-        .playlist-item:hover {
-            background: rgba(0, 240, 255, 0.05);
-            border-color: rgba(0, 240, 255, 0.2);
+        .track-node:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+            transform: translateX(4px);
         }
 
-        .playlist-item.active {
-            background: rgba(157, 78, 221, 0.1);
-            border-color: var(--accent-purple);
+        .track-node.active-node {
+            background: rgba(0, 240, 255, 0.06);
+            border-color: rgba(0, 240, 255, 0.3);
             color: #fff;
+            box-shadow: inset 0 0 15px rgba(0, 240, 255, 0.05);
         }
 
-        .playlist-item i {
-            color: var(--text-muted);
+        .track-node.active-node i {
+            color: var(--neon-cyan);
+            animation: pulse-glow 1.5s infinite alternate;
         }
 
-        .playlist-item.active i {
-            color: var(--accent-cyan);
+        @keyframes pulse-glow {
+            from { text-shadow: 0 0 2px var(--neon-cyan); }
+            to { text-shadow: 0 0 12px var(--neon-cyan), 0 0 20px var(--neon-cyan); }
         }
 
-        /* Organisation / Buttons */
-        .org-btn {
+        /* Netzwerk-Button */
+        .action-link-block {
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 12px 20px;
-            border-radius: 12px;
+            gap: 12px;
+            background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
             color: #fff;
+            padding: 14px 28px;
+            border-radius: 16px;
             text-decoration: none;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 0.9rem;
-            transition: all 0.25s;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 25px rgba(189, 0, 255, 0.25);
             margin-top: 5px;
         }
 
-        .org-btn:hover {
-            background: var(--accent-cyan);
-            color: var(--bg-main);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        .action-link-block:hover {
             transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(189, 0, 255, 0.45);
         }
 
-        /* Projekt Grid Kacheln */
-        .project-tiles {
+        /* Repositories Grid */
+        .repo-matrix {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 16px;
         }
 
-        .tile {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.03);
-            border-radius: 14px;
-            padding: 18px;
+        .repo-node {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 18px;
+            padding: 22px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: all 0.2s;
         }
 
-        .tile:hover {
-            background: rgba(0, 0, 0, 0.35);
-            border-color: rgba(157, 78, 221, 0.4);
+        .repo-node:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(0, 240, 255, 0.2);
+            transform: translateY(-3px);
         }
 
-        .tile h4 {
+        .repo-node h4 {
             margin: 0 0 8px 0;
-            font-size: 1rem;
-            color: #ffffff;
+            font-size: 1.05rem;
+            color: #fff;
         }
 
-        .tile p {
+        .repo-node p {
             font-size: 0.85rem;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
-        .tile a {
-            color: var(--accent-purple);
+        .repo-anchor {
+            color: var(--neon-cyan);
             text-decoration: none;
             font-size: 0.85rem;
-            font-weight: bold;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            transition: color 0.2s;
+            gap: 6px;
         }
 
-        .tile a:hover {
-            color: var(--accent-cyan);
+        .repo-anchor:hover {
+            color: #fff;
         }
 
         /* Footer */
-        .footer {
-            text-align: center;
+        .system-footer {
             grid-column: 1 / -1;
-            margin-top: 10px;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.15);
+            letter-spacing: 1px;
         }
 
-        .footer p {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.2);
-        }
-
-        @media (max-width: 768px) {
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 850px) {
             .dashboard {
                 grid-template-columns: 1fr;
-                margin: 10px;
-                padding: 10px;
+                margin: 20px 10px;
             }
-
-            .project-tiles {
+            .repo-matrix {
                 grid-template-columns: 1fr;
             }
-
-            .left-panel {
+            .profile-side {
                 width: 100%;
-                box-sizing: border-box;
             }
         }
     </style>
 </head>
 <body>
 
-    <!-- Dynamisches Audio-Element -->
-    <audio id="bg-music" loop></audio>
+    <!-- Globale Audio-Engine -->
+    <audio id="bg-music" autoplay loop></audio>
 
     <div class="dashboard">
         
-        <!-- LINKES PROFIL-BOARD -->
-        <aside class="left-panel">
-            <a href="/" class="back-link">
-                <i class="fas fa-chevron-left"></i> Hub
+        <!-- PROFILSEITE (LINKS) -->
+        <aside class="profile-side">
+            <a href="/" class="back-hub">
+                <i class="fas fa-arrow-left"></i> HUB
             </a>
 
-            <div class="avatar-wrapper">
+            <div class="avatar-container">
+                <div class="avatar-glow"></div>
                 <img src="pictures/benkormos.profilbild.jpg" alt="BenKormos" class="avatar">
             </div>
 
-            <div class="typewriter-container">
-                <div class="typewriter-text">BenKormos</div>
-            </div>
-            <p class="tagline">Owner & Developer</p>
+            <h2 class="username">BenKormos</h2>
+            <div class="rank-tag">Owner & Developer</div>
 
-            <div class="social-dock">
-                <a href="https://github.com/benbroc" target="_blank" class="social-icon" title="GitHub"><i class="fab fa-github"></i></a>
-                <a href="https://youtube.com/@benkormos" target="_blank" class="social-icon" title="YouTube"><i class="fab fa-youtube"></i></a>
-                <a href="https://twitch.tv/benkormos" target="_blank" class="social-icon" title="Twitch"><i class="fab fa-twitch"></i></a>
-                <a href="https://dc.gg/ben" target="_blank" class="social-icon" title="Discord"><i class="fab fa-discord"></i></a>
+            <div class="social-grid">
+                <a href="https://github.com/benbroc" target="_blank" class="social-btn gh" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://youtube.com/@benkormos" target="_blank" class="social-btn yt" title="YouTube"><i class="fab fa-youtube"></i></a>
+                <a href="https://twitch.tv/benkormos" target="_blank" class="social-btn tw" title="Twitch"><i class="fab fa-twitch"></i></a>
+                <a href="https://dc.gg/ben" target="_blank" class="social-btn dc" title="Discord"><i class="fab fa-discord"></i></a>
             </div>
         </aside>
 
-        <!-- RECHTER CONTENT-PANEL -->
-        <main class="right-panel">
+        <!-- MAIN-CONTENT (RECHTS) -->
+        <main class="content-side">
             
-            <!-- NEUE KISTE: Musik-Player & Playlist -->
-            <section class="card player-box">
-                <h3><i class="fas fa-music"></i> Cyber Audio Deck</h3>
+            <!-- IMMERSIVER AUDIO PLAYER -->
+            <section class="card audio-deck">
+                <h3><i class="fas fa-wave-square"></i> Audio Control Deck</h3>
                 
-                <div class="player-interface">
-                    <div class="now-playing">
-                        <span class="status" id="track-status">Gestoppt</span>
-                        <span class="title" id="track-title">Kein Song geladen</span>
+                <div class="player-main">
+                    <div class="track-info">
+                        <span class="track-status" id="track-status">Offline</span>
+                        <span class="track-name" id="track-name">Kein Signal</span>
                     </div>
                     
-                    <div class="player-controls">
-                        <button class="player-btn" id="prev-btn" title="Vorheriger Song"><i class="fas fa-step-backward"></i></button>
-                        <button class="player-btn play-toggle" id="play-btn" title="Play"><i class="fas fa-play" id="play-icon"></i></button>
-                        <button class="player-btn" id="next-btn" title="Nächster Song"><i class="fas fa-step-forward"></i></button>
+                    <div class="controls-cluster">
+                        <button class="action-btn" id="prev-btn"><i class="fas fa-backward"></i></button>
+                        <button class="action-btn master-play" id="play-btn"><i class="fas fa-play" id="play-icon"></i></button>
+                        <button class="action-btn" id="next-btn"><i class="fas fa-forward"></i></button>
                     </div>
                     
-                    <div class="volume-container">
-                        <i class="fas fa-volume-down" id="volume-icon"></i>
-                        <input type="range" class="volume-slider" id="volume-slider" min="0" max="1" step="0.05" value="0.5">
+                    <div class="volume-mix">
+                        <i class="fas fa-volume-low" id="volume-icon"></i>
+                        <input type="range" class="volume-bar" id="volume-slider" min="0" max="1" step="0.01" value="0.3">
                     </div>
                 </div>
 
-                <!-- Anzeige der abspielbaren Titel -->
-                <ul class="playlist" id="playlist">
-                    <!-- Tracks werden via JavaScript eingelesen. Du kannst hier beliebig viele MP3s eintragen: -->
-                    <li class="playlist-item" data-src="music.mp3">
-                        <span><i class="fas fa-play-circle"></i> Fish - Ythotkk</span>
-                        <span class="text-muted">Hardtekk</span>
+                <ul class="track-list" id="playlist">
+                    <li class="track-node" data-src="music/benm.mp3">
+                        <span><i class="fas fa-dot-circle" style="margin-right: 12px;"></i>Fish - Ythotkk</span>
+                        <span style="color: var(--neon-pink); font-weight: 600; font-size: 0.8rem;">Hardtekk</span>
                     </li>
                 </ul>
             </section>
 
+            <!-- STATUS CARD -->
             <section class="card">
-                <h3><i class="fas fa-terminal"></i> Status: Active</h3>
+                <h3><i class="fas fa-terminal"></i> Core Status // Active</h3>
                 <p>Welcome to my custom terminal space!</p>
                 <p>I love building codes, tinkering with code, and sharing my latest projects and favorite links right here with you.</p>
             </section>
 
+            <!-- ORGANISATION -->
             <section class="card">
-                <h3><i class="fas fa-network-wired"></i> Organisation</h3>
+                <h3><i class="fas fa-layer-group"></i> Collective</h3>
                 <p>Hauptentwickler und Gründer des SynergyStation Netzwerks.</p>
-                <a href="https://github.com/SynergyStation" target="_blank" class="org-btn">
-                    <i class="fab fa-github"></i> SYNERGYstation eintreten
+                <a href="https://github.com/SynergyStation" target="_blank" class="action-link-block">
+                    <i class="fab fa-github"></i> SYNERGYstation beitreten
                 </a>
             </section>
 
+            <!-- REPOSITORIES -->
             <section class="card">
-                <h3><i class="fas fa-cubes"></i> Code Repository</h3>
-                <div class="project-tiles">
+                <h3><i class="fas fa-code-branch"></i> Systems & Repositories</h3>
+                <div class="repo-matrix">
                     
-                    <div class="tile">
+                    <div class="repo-node">
                         <div>
                             <h4>Steam Trash Installer</h4>
                             <p>So basically I made a Steam Installer Virus for entertainment purposes only.</p>
                         </div>
-                        <a href="https://github.com/Benbroc/MalwareDatabase/tree/main/SteamTrashVirus" target="_blank">
-                            Terminal.open() <i class="fas fa-arrow-right"></i>
+                        <a href="https://github.com/Benbroc/MalwareDatabase/tree/main/SteamTrashVirus" target="_blank" class="repo-anchor">
+                            initialize_dump() <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
 
-                    <div class="tile">
+                    <div class="repo-node">
                         <div>
                             <h4>Voltix Minecraft</h4>
                             <p>My Server began on the 11th of February. The server started but ended in May/June. Page remains public.</p>
                         </div>
-                        <a href="https://github.com/Benbroc/voltix-website-2.0" target="_blank">
-                            Terminal.open() <i class="fas fa-arrow-right"></i>
+                        <a href="https://github.com/Benbroc/voltix-website-2.0" target="_blank" class="repo-anchor">
+                            initialize_dump() <i class="fas fa-chevron-right"></i>
                         </a>
                     </div>
 
@@ -560,101 +590,123 @@
 
         </main>
 
-        <!-- Global Footer -->
-        <footer class="footer">
-            <p>// © 2026 @BenKormos • Powered_by: SynergyStation_</p>
+        <!-- SYSTEM FOOTER -->
+        <footer class="system-footer">
+            // TERMINAL. DEPLOYED SUCCESSFULLY SYSTEM_YEAR: 2026 @BenKormos
         </footer>
     </div>
 
-    <!-- JavaScript Musikplayer-Logik -->
+    <!-- AUDIO ENGINE ARCHITECTURE -->
     <script>
-        const music = document.getElementById('bg-music');
+        const audio = document.getElementById('bg-music');
         const playBtn = document.getElementById('play-btn');
         const playIcon = document.getElementById('play-icon');
         const prevBtn = document.getElementById('prev-btn');
         const nextBtn = document.getElementById('next-btn');
         const volumeSlider = document.getElementById('volume-slider');
         const volumeIcon = document.getElementById('volume-icon');
-        const trackTitle = document.getElementById('track-title');
+        const trackName = document.getElementById('track-name');
         const trackStatus = document.getElementById('track-status');
-        const playlistItems = document.querySelectorAll('.playlist-item');
+        const trackNodes = document.querySelectorAll('.track-node');
 
         let currentTrackIndex = 0;
-        music.volume = 0.5;
+        audio.volume = 0.3; // Angenehme Standardlautstärke
 
-        // Funktion zum Laden eines Songs
         function loadTrack(index) {
-            playlistItems.forEach(item => item.classList.remove('active'));
-            
-            if(playlistItems[index]) {
-                const selectedItem = playlistItems[index];
-                selectedItem.classList.add('active');
-                music.src = selectedItem.getAttribute('data-src');
-                trackTitle.textContent = selectedItem.querySelector('span').textContent.replace('▶ ', '').trim();
+            trackNodes.forEach(node => node.classList.remove('active-node'));
+            if(trackNodes[index]) {
+                const targetNode = trackNodes[index];
+                targetNode.classList.add('active-node');
+                audio.src = targetNode.getAttribute('data-src');
+                // Filtert den Text des Titels sauber heraus
+                trackName.textContent = targetNode.querySelector('span').textContent.trim();
                 currentTrackIndex = index;
             }
         }
 
-        // Initialisiere den ersten Song aus der Liste
+        // Initialisiert Track 1
         loadTrack(0);
 
-        // Play / Pause Steuerung
-        function togglePlay() {
-            if (music.paused) {
-                music.play().catch(e => console.log("Autoplay von Browser blockiert, bitte Play drücken."));
-                playIcon.className = 'fas fa-pause';
-                trackStatus.textContent = "Spielt ab";
-                playBtn.title = 'Pause';
-            } else {
-                music.pause();
-                playIcon.className = 'fas fa-play';
-                trackStatus.textContent = "Pausiert";
-                playBtn.title = 'Play';
-            }
+        function setPlayUI() {
+            playIcon.className = 'fas fa-pause';
+            trackStatus.textContent = "ONLINE // PLAYING";
+            trackStatus.style.color = "var(--neon-cyan)";
         }
 
-        playBtn.addEventListener('click', togglePlay);
+        function setPauseUI() {
+            playIcon.className = 'fas fa-play';
+            trackStatus.textContent = "SYSTEM // PAUSED";
+            trackStatus.style.color = "var(--neon-pink)";
+        }
 
-        // Nächster Song
-        nextBtn.addEventListener('click', () => {
-            let nextIndex = currentTrackIndex + 1;
-            if (nextIndex >= playlistItems.length) nextIndex = 0;
-            loadTrack(nextIndex);
-            music.play();
-            playIcon.className = 'fas fa-pause';
-            trackStatus.textContent = "Spielt ab";
+        // Autoplay-Trigger bei Interaktion
+        function triggerAutoplay() {
+            audio.play().then(() => {
+                setPlayUI();
+                removeInteractionListeners();
+            }).catch(() => {
+                console.log("Autoplay wartet auf aktive Interaktion...");
+            });
+        }
+
+        function removeInteractionListeners() {
+            window.removeEventListener('click', triggerAutoplay);
+            window.removeEventListener('touchstart', triggerAutoplay);
+        }
+
+        window.addEventListener('DOMContentLoaded', triggerAutoplay);
+        window.addEventListener('click', triggerAutoplay);
+        window.addEventListener('touchstart', triggerAutoplay);
+
+        // Controls Klick-Events
+        playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                setPlayUI();
+            } else {
+                audio.pause();
+                setPauseUI();
+            }
         });
 
-        // Vorheriger Song
-        prevBtn.addEventListener('click', () => {
-            let prevIndex = currentTrackIndex - 1;
-            if (prevIndex < 0) prevIndex = playlistItems.length - 1;
-            loadTrack(prevIndex);
-            music.play();
-            playIcon.className = 'fas fa-pause';
-            trackStatus.textContent = "Spielt ab";
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let next = currentTrackIndex + 1;
+            if (next >= trackNodes.length) next = 0;
+            loadTrack(next);
+            audio.play();
+            setPlayUI();
         });
 
-        // Klick direkt auf einen Song in der Liste
-        playlistItems.forEach((item, index) => {
-            item.addEventListener('click', () => {
-                loadTrack(index);
-                music.play();
-                playIcon.className = 'fas fa-pause';
-                trackStatus.textContent = "Spielt ab";
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            let prev = currentTrackIndex - 1;
+            if (prev < 0) prev = trackNodes.length - 1;
+            loadTrack(prev);
+            audio.play();
+            setPlayUI();
+        });
+
+        trackNodes.forEach((node, idx) => {
+            node.addEventListener('click', (e) => {
+                e.stopPropagation();
+                loadTrack(idx);
+                audio.play();
+                setPlayUI();
             });
         });
 
-        // Lautstärkeregler
+        // Volume System
         volumeSlider.addEventListener('input', (e) => {
             const val = e.target.value;
-            music.volume = val;
-            if (val == 0) {
+            audio.volume = val;
+            if(val == 0) {
                 volumeIcon.className = 'fas fa-volume-mute';
-            } else if (val < 0.5) {
-                volumeIcon.className = 'fas fa-volume-down';
+            } else if(val < 0.5) {
+                volumeIcon.className = 'fas fa-volume-low';
             } else {
-                volumeIcon.className = 'fas fa-volume-up';
+                volumeIcon.className = 'fas fa-volume-high';
             }
         });
     </script>
