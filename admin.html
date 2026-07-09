@@ -216,6 +216,7 @@
     min-height:16px;
   }
   #gate .send-btn{ margin-top:16px; }
+  #gate .send-btn:disabled{ opacity:.6; }
 
   .hidden{ display:none !important; }
 </style>
@@ -231,7 +232,10 @@
   <label>Passwort</label>
   <input type="password" id="pwInput" placeholder="Passwort eingeben …">
 
-  <button class="send-btn" id="unlockBtn">Entsperren</button>
+  <button class="send-btn" id="unlockBtn">
+    <span class="spinner" id="unlockSpinner"></span>
+    <span id="unlockLabel">Entsperren</span>
+  </button>
   <div class="error-msg" id="pwError"></div>
 </div>
 
@@ -256,26 +260,64 @@
 
   <div class="status" id="status"><span class="ok-dot"></span><span id="statusText"></span></div>
 
-  <div class="hint">Läuft über den öffentlichen Broadcast-Kanal „global-massage-broadcast-4471" (ntfy.sh) – kein eigener Server nötig. Die Anzeige-Leiste (separates Snippet) hört auf diesen Kanal und zeigt neue Nachrichten in Echtzeit an. Für den echten Einsatz: Kanalnamen in beiden Dateien auf etwas Eindeutiges ändern.<br><br>Hinweis: Diese Passwortsperre läuft rein im Browser (clientseitig) und schützt nicht vor jemandem, der sich den Quellcode ansieht. Für echten Schutz bräuchte es eine serverseitige Prüfung.</div>
+  <div class="hint">Läuft über einen öffentlichen Broadcast-Kanal (ntfy.sh) – kein eigener Server für die Anzeige-Leiste nötig. Der Kanalname wird erst nach erfolgreicher Passwort-Prüfung vom Auth-Server geladen und steht nicht offen im Quelltext.</div>
 </div>
 
 <script>
-  // --- Passwort-Gate ---
-  const GATE_PASSWORD = "Admin123";
+  // ==========================================================
+  // WICHTIG: Hier die URL deines Cloudflare Workers eintragen
+  // (siehe auth-worker.js für die Einrichtung)
+  // Beispiel: "https://global-massage-auth.deinname.workers.dev"
+  // ==========================================================
+  const AUTH_WORKER_URL = "https://global-massage-auth.DEIN-NAME.workers.dev";
+
+  // --- Passwort-Gate (fragt jetzt den Server statt lokal zu vergleichen) ---
   const gateEl = document.getElementById('gate');
   const appEl = document.getElementById('app');
   const pwInput = document.getElementById('pwInput');
   const pwError = document.getElementById('pwError');
   const unlockBtn = document.getElementById('unlockBtn');
+  const unlockSpinner = document.getElementById('unlockSpinner');
+  const unlockLabel = document.getElementById('unlockLabel');
 
-  function tryUnlock(){
-    if(pwInput.value === GATE_PASSWORD){
-      gateEl.classList.add('hidden');
-      appEl.classList.remove('hidden');
-    }else{
-      pwError.textContent = "Falsches Passwort. Bitte erneut versuchen.";
-      pwInput.style.borderColor = "#c05a5a";
-      setTimeout(() => { pwInput.style.borderColor = ""; }, 1200);
+  // Der Kanalname ist NICHT mehr fest im Code, sondern kommt erst
+  // nach erfolgreichem Login vom Worker.
+  let GM_CHANNEL = null;
+
+  async function tryUnlock(){
+    const password = pwInput.value;
+    if(!password) return;
+
+    pwError.textContent = "";
+    unlockBtn.disabled = true;
+    unlockSpinner.classList.add('on');
+    unlockLabel.textContent = "Prüfe …";
+
+    try{
+      const resp = await fetch(AUTH_WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password })
+      });
+
+      const data = await resp.json();
+
+      if(resp.ok && data.ok){
+        GM_CHANNEL = data.channel;
+        gateEl.classList.add('hidden');
+        appEl.classList.remove('hidden');
+      }else{
+        pwError.textContent = "Falsches Passwort. Bitte erneut versuchen.";
+        pwInput.style.borderColor = "#c05a5a";
+        setTimeout(() => { pwInput.style.borderColor = ""; }, 1200);
+      }
+    }catch(err){
+      console.error(err);
+      pwError.textContent = "Verbindung zum Auth-Server fehlgeschlagen.";
+    }finally{
+      unlockBtn.disabled = false;
+      unlockSpinner.classList.remove('on');
+      unlockLabel.textContent = "Entsperren";
     }
   }
   unlockBtn.addEventListener('click', tryUnlock);
@@ -323,6 +365,11 @@
   }
 
   sendBtn.addEventListener('click', async () => {
+    if(!GM_CHANNEL){
+      showStatus("Fehler: Kein Kanal geladen. Bitte neu einloggen.");
+      return;
+    }
+
     // Name kommt jetzt ausschließlich vom gewählten Profil, nicht mehr frei editierbar
     const name = selectedProfile.name;
     const avatar = selectedProfile.avatar;
@@ -344,11 +391,6 @@
       ts: Date.now()
     };
 
-    // Öffentlicher, kostenloser Broadcast-Kanal über ntfy.sh (kein Server, kein Account nötig).
-    // WICHTIG: Wenn ihr das produktiv nutzt, ändert diesen Kanalnamen in beiden Dateien
-    // (Admin + Leiste) auf etwas Eindeutiges/Geheimes, damit niemand sonst mitliest oder sendet.
-    const GM_CHANNEL = "global-massage-broadcast-4471";
-
     try{
       const resp = await fetch(`https://ntfy.sh/${GM_CHANNEL}`, {
         method: "POST",
@@ -366,22 +408,6 @@
       sendBtn.disabled = false;
       sendSpinner.classList.remove('on');
       sendLabel.textContent = "Senden";
-    }
-  });
-
-  // --- Einfache Abschreckung gegen DevTools/Quelltext-Ansicht ---
-  // Hinweis: Das ist KEIN echter Schutz, nur eine kleine Hürde. Über das
-  // Browser-Hauptmenü lassen sich die Entwicklertools weiterhin öffnen.
-  document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-  document.addEventListener('keydown', (e) => {
-    const key = e.key.toUpperCase();
-    if (
-      e.key === 'F12' ||
-      (e.ctrlKey && e.shiftKey && (key === 'I' || key === 'J' || key === 'C')) ||
-      (e.ctrlKey && key === 'U')
-    ) {
-      e.preventDefault();
     }
   });
 </script>
