@@ -610,18 +610,54 @@
         // Musik-Steuerung
         const playBtn = document.getElementById('play-btn');
         const playIcon = document.getElementById('play-icon');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const trackTitle = document.getElementById('track-title');
         const musicIcon = document.getElementById('music-icon');
         const volIcon = document.getElementById('volume-icon');
         const volumeSlider = document.getElementById('volume-slider');
 
-        function togglePlay() {
-            if (isPlaying) { audio.pause(); playIcon.className = 'fas fa-play'; musicIcon.classList.remove('playing'); }
-            else { audio.play().then(() => { playIcon.className = 'fas fa-pause'; musicIcon.classList.add('playing'); }); }
-            isPlaying = !isPlaying;
+        function loadSong(index) {
+            audio.src = songs[index].src;
+            trackTitle.textContent = songs[index].title;
+        }
+
+        async function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                playIcon.className = 'fas fa-play';
+                musicIcon.classList.remove('playing');
+                isPlaying = false;
+            } else {
+                try {
+                    await audio.play();
+                    playIcon.className = 'fas fa-pause';
+                    musicIcon.classList.add('playing');
+                    isPlaying = true;
+                } catch (err) {
+                    console.error("Wiedergabefehler:", err);
+                }
+            }
+        }
+
+        function playNext() {
+            currentSongIndex = (currentSongIndex + 1) % songs.length;
+            loadSong(currentSongIndex);
+            if (isPlaying) audio.play();
+        }
+
+        function playPrev() {
+            currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
+            loadSong(currentSongIndex);
+            if (isPlaying) audio.play();
         }
 
         playBtn.onclick = togglePlay;
+        nextBtn.onclick = playNext;
+        prevBtn.onclick = playPrev;
         volumeSlider.oninput = (e) => audio.volume = e.target.value;
+        
+        loadSong(0);
 
         // Taco Effect
         let tacoInterval = null;
