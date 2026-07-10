@@ -6,34 +6,35 @@
     <title>SynergyStation - Developers</title>
     <link rel="icon" type="image/jpeg" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* --- CORE ARCHITECTURE FROM HOMEPAGE --- */
+        /* --- MANIFEST / CARBON COPY (DARK) SYSTEM --- */
         :root {
-            --bg-main: #030307;
-            --bg-surface: #0a0a12;
-            --bg-surface-elevated: #121222;
-            
-            --border-main: rgba(255, 255, 255, 0.04);
-            --border-active: rgba(255, 255, 255, 0.15);
-            
-            --accent-cyan: #00f0ff;
-            --accent-purple: #bd5eff;
-            --accent-emerald: #00ffaa;
-            --accent-pink: #ff2a6d;
-            
-            --text-pure: #ffffff;
-            --text-main: #d1d1de;
-            --text-muted: #4e4e6a;
-            
-            --font-display: 'Space Grotesk', sans-serif;
-            --font-sans: 'Plus Jakarta Sans', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            
-            --radius-lg: 12px;
-            --radius-md: 8px;
-            --radius-sm: 4px;
-            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg-main: #15130d;
+            --bg-surface: #1d1a12;
+            --bg-surface-elevated: #232016;
+
+            --border-main: rgba(245, 239, 224, 0.08);
+            --border-active: rgba(245, 239, 224, 0.24);
+
+            --accent-stamp: #6fa8ff;
+            --accent-hazard: #ffa24f;
+            --accent-ok: #4fdb96;
+            --accent-alert: #ff7a6c;
+
+            --text-pure: #f5efdf;
+            --text-main: #cdc4ac;
+            --text-muted: #746c56;
+            --text-dark: #15130d;
+
+            --font-display: 'Archivo Black', sans-serif;
+            --font-sans: 'IBM Plex Sans', sans-serif;
+            --font-mono: 'IBM Plex Mono', monospace;
+
+            --radius-lg: 2px;
+            --radius-md: 2px;
+            --radius-sm: 1px;
+            --transition-fast: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { 
@@ -44,10 +45,10 @@
 
         body {
             background-color: var(--bg-main);
-            background-image: 
-                linear-gradient(rgba(18, 18, 34, 0.3) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(18, 18, 34, 0.3) 1px, transparent 1px);
-            background-size: 40px 40px;
+            background-image:
+                repeating-linear-gradient(rgba(245, 239, 224, 0.035) 0px, rgba(245, 239, 224, 0.035) 1px, transparent 1px, transparent 32px),
+                radial-gradient(rgba(245, 239, 224, 0.05) 0.6px, transparent 0.6px);
+            background-size: auto, 6px 6px;
             background-attachment: fixed;
             color: var(--text-main);
             font-family: var(--font-sans);
@@ -57,6 +58,21 @@
             align-items: center;
             padding: 120px 24px 60px 24px;
             -webkit-font-smoothing: antialiased;
+            position: relative;
+        }
+
+        /* Perforated tear-strip along the very top of the page */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 9px;
+            background-color: var(--text-pure);
+            background-image: radial-gradient(circle, var(--bg-main) 3px, transparent 3.2px);
+            background-size: 18px 9px;
+            background-position: 9px center;
+            z-index: 1001;
         }
 
         .container { 
@@ -66,12 +82,12 @@
             flex-direction: column; 
             gap: 16px; 
             opacity: 0;
-            animation: wireframe-reveal 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            animation: manifest-stamp-in 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
         }
 
-        @keyframes wireframe-reveal {
-            from { opacity: 0; transform: scale(0.98); filter: brightness(0.5); }
-            to { opacity: 1; transform: scale(1); filter: brightness(1); }
+        @keyframes manifest-stamp-in {
+            from { opacity: 0; transform: scale(1.015); }
+            to { opacity: 1; transform: scale(1); }
         }
 
         .back-link {
@@ -82,6 +98,7 @@
             text-decoration: none;
             font-family: var(--font-mono);
             font-size: 0.75rem;
+            font-weight: 600;
             transition: var(--transition-fast);
             width: fit-content;
             text-transform: uppercase;
@@ -89,17 +106,45 @@
         }
         .back-link:hover { color: var(--text-pure); }
 
-        /* --- CYBER PANEL SYSTEM --- */
+        /* --- FORM PANEL SYSTEM --- */
         .panel {
-            background: var(--bg-surface);
+            position: relative;
+            background: var(--bg-surface-elevated);
             border: 1px solid var(--border-main);
             border-radius: var(--radius-lg);
             padding: 24px;
+            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.3);
             transition: var(--transition-fast);
         }
 
         .panel:hover {
             border-color: var(--border-active);
+            box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4);
+            transform: translate(-1px, -1px);
+        }
+
+        /* Registration corner marks, like a technical drawing */
+        .panel::before,
+        .panel::after {
+            content: '';
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            pointer-events: none;
+        }
+
+        .panel::before {
+            top: -1px;
+            left: -1px;
+            border-top: 2px solid var(--accent-stamp);
+            border-left: 2px solid var(--accent-stamp);
+        }
+
+        .panel::after {
+            bottom: -1px;
+            right: -1px;
+            border-bottom: 2px solid var(--accent-hazard);
+            border-right: 2px solid var(--accent-hazard);
         }
 
         .panel-title {
@@ -110,6 +155,8 @@
             letter-spacing: 1px;
             color: var(--text-pure);
             margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--border-main);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -126,16 +173,17 @@
         }
 
         .live-tag {
-            color: var(--accent-cyan);
+            color: var(--accent-ok);
             background: transparent;
-            border: 1px solid var(--accent-cyan);
+            border: 1px solid var(--accent-ok);
             padding: 1px 5px;
             border-radius: var(--radius-sm);
             font-size: 0.6rem;
+            font-weight: 700;
             text-transform: uppercase;
         }
 
-        /* --- CORE DEV GRID --- */
+        /* --- CORE DEV GRID (roster cards) --- */
         .dev-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -151,8 +199,8 @@
         }
 
         .dev-card {
-            background: transparent;
-            border: 1px solid var(--border-main);
+            background: var(--bg-surface);
+            border: 1px dashed var(--border-main);
             border-radius: var(--radius-md);
             padding: 28px 12px 24px 12px;
             text-align: center;
@@ -165,14 +213,16 @@
         }
         
         .dev-link:hover .dev-card {
-            background: rgba(255, 255, 255, 0.01);
-            transform: translateY(-2px);
+            background: var(--bg-surface-elevated);
+            border-style: solid;
+            transform: translate(-1px, -1px);
+            box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
         }
 
-        /* Profile-specific glows based on homepage colors */
-        .dev-link:hover .dev-card.ben { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.1); }
-        .dev-link:hover .dev-card.julian { border-color: var(--accent-pink); box-shadow: 0 0 15px rgba(255, 42, 109, 0.1); }
-        .dev-link:hover .dev-card.mexo { border-color: var(--accent-emerald); box-shadow: 0 0 15px rgba(0, 255, 170, 0.1); }
+        /* Profile-specific ink stamps, mapped from the homepage accents */
+        .dev-link:hover .dev-card.ben { border-color: var(--accent-stamp); }
+        .dev-link:hover .dev-card.julian { border-color: var(--accent-alert); }
+        .dev-link:hover .dev-card.mexo { border-color: var(--accent-ok); }
 
         .avatar-mainframe {
             width: 72px;
@@ -185,23 +235,23 @@
             height: 100%;
             object-fit: cover;
             border-radius: var(--radius-lg);
-            border: 1px solid var(--border-active);
-            filter: grayscale(0.2);
+            border: 2px solid var(--border-active);
+            filter: grayscale(0.35) contrast(1.05) brightness(0.95);
             transition: var(--transition-fast);
-            background: #05050a;
+            background: var(--bg-main);
         }
 
         .dev-link:hover .dev-avatar {
             filter: grayscale(0);
         }
         
-        .dev-link:hover .dev-card.ben .dev-avatar { border-color: var(--accent-cyan); }
-        .dev-link:hover .dev-card.julian .dev-avatar { border-color: var(--accent-pink); }
-        .dev-link:hover .dev-card.mexo .dev-avatar { border-color: var(--accent-emerald); }
+        .dev-link:hover .dev-card.ben .dev-avatar { border-color: var(--accent-stamp); }
+        .dev-link:hover .dev-card.julian .dev-avatar { border-color: var(--accent-alert); }
+        .dev-link:hover .dev-card.mexo .dev-avatar { border-color: var(--accent-ok); }
 
         .dev-info h4 { 
             font-family: var(--font-sans);
-            font-weight: 500;
+            font-weight: 600;
             font-size: 0.9rem; 
             color: var(--text-pure);
             margin-bottom: 2px;
@@ -219,6 +269,14 @@
         @media (max-width: 768px) {
             .dev-grid { grid-template-columns: 1fr; gap: 10px; }
             body { padding-top: 80px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
         }
     </style>
 </head>

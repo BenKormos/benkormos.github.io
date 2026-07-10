@@ -6,25 +6,27 @@
     <title>SynergyStation // File Matrix</title>
     <link rel="icon" type="image/jpeg" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/homepage/style.css">
     <style>
         .tree-view {
             font-family: var(--font-mono);
             font-size: 0.85rem;
             line-height: 1.8;
-            background: #05050a;
-            border: 1px solid var(--border-main);
+            background: #100e09;
+            background-image: repeating-linear-gradient(rgba(245, 239, 224, 0.025) 0px, rgba(245, 239, 224, 0.025) 1px, transparent 1px, transparent 3px);
+            border: 1px dashed var(--border-main);
             border-radius: var(--radius-md);
             padding: 20px;
             overflow-x: auto;
             color: var(--text-main);
             white-space: pre-wrap;
         }
-        .tree-dir { color: var(--accent-cyan); font-weight: bold; }
+        .tree-dir { color: var(--accent-stamp); font-weight: bold; }
         .tree-file { color: var(--text-pure); }
-        .tree-audio { color: var(--accent-amber); }
-        .tree-css { color: var(--accent-purple); }
+        .tree-audio { color: var(--accent-hazard); }
+        .tree-css { color: var(--accent-alert); }
+        .tree-comment { color: var(--text-muted); font-style: italic; }
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -33,6 +35,10 @@
             text-decoration: none;
             font-family: var(--font-mono);
             font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            width: fit-content;
             margin-bottom: 20px;
             transition: var(--transition-fast);
         }
@@ -46,8 +52,8 @@
         
         <section class="panel">
             <div class="panel-title">
-                <span><i class="fas fa-network-wired" style="color: var(--accent-cyan);"></i> ARCHITECTURE // FILE_MATRIX</span>
-                <span class="live-tag" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">SYSTEM_TREE</span>
+                <span><i class="fas fa-network-wired" style="color: var(--accent-stamp);"></i> ARCHITECTURE // FILE_MATRIX</span>
+                <span class="live-tag" style="border-color: var(--accent-stamp); color: var(--accent-stamp);">SYSTEM_TREE</span>
             </div>
             
             <pre class="tree-view">.
