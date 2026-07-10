@@ -9,9 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/homepage/style.css">
     <style>
-        .tree-container {
-            position: relative;
-        }
         .tree-view {
             font-family: var(--font-mono);
             font-size: 0.85rem;
@@ -28,72 +25,6 @@
         .tree-file { color: var(--text-pure); }
         .tree-audio { color: var(--accent-amber); }
         .tree-css { color: var(--accent-purple); }
-        
-        /* Edit Elements */
-        .edit-trigger {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-main);
-            color: var(--text-main);
-            padding: 8px 12px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            transition: var(--transition-fast);
-            z-index: 10;
-        }
-        .edit-trigger:hover {
-            background: var(--text-pure);
-            color: var(--text-dark);
-            border-color: var(--text-pure);
-        }
-        .tree-editor {
-            width: 100%;
-            height: 450px;
-            background: #020205;
-            color: var(--accent-emerald);
-            border: 1px solid var(--accent-emerald);
-            border-radius: var(--radius-md);
-            padding: 15px;
-            font-family: var(--font-mono);
-            font-size: 0.85rem;
-            line-height: 1.8;
-            resize: vertical;
-            outline: none;
-            display: none;
-        }
-        .action-container {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 10px;
-            display: none;
-        }
-        .btn-save {
-            background: var(--accent-emerald);
-            color: var(--text-dark);
-            border: none;
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            font-weight: 700;
-        }
-        .btn-cancel {
-            background: transparent;
-            color: var(--text-muted);
-            border: 1px solid var(--border-main);
-            padding: 8px 16px;
-            border-radius: var(--radius-sm);
-            cursor: pointer;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-        }
-
         .back-link {
             display: inline-flex;
             align-items: center;
@@ -106,38 +37,20 @@
             transition: var(--transition-fast);
         }
         .back-link:hover { color: var(--text-pure); }
-        
-        .server-status {
-            font-size: 0.6rem;
-            padding: 1px 6px;
-            border-radius: var(--radius-sm);
-            font-family: var(--font-mono);
-            text-transform: uppercase;
-            border: 1px solid var(--text-muted);
-            color: var(--text-muted);
-        }
-        .server-status.online {
-            border-color: var(--accent-emerald);
-            color: var(--accent-emerald);
-        }
     </style>
 </head>
 <body>
 
     <div class="container" style="opacity: 1; animation: none;">
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Return to Mainframe</a>
+        <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Return to Mainframe</a>
         
         <section class="panel">
             <div class="panel-title">
                 <span><i class="fas fa-network-wired" style="color: var(--accent-cyan);"></i> ARCHITECTURE // FILE_MATRIX</span>
-                <span id="status-indicator" class="server-status">LOCAL_FALLBACK</span>
+                <span class="live-tag" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">SYSTEM_TREE</span>
             </div>
             
-            <div class="tree-container">
-                <button class="edit-trigger" id="edit-btn" onclick="toggleEditMode()"><i class="fas fa-pen"></i> Edit Tree</button>
-                
-                <!-- Display Mode -->
-                <pre class="tree-view" id="tree-content">.
+            <pre class="tree-view">.
 ├── <span class="tree-dir">📂 background/</span>          <span class="tree-comment"># Custom background assets (Images / Videos)</span>
 ├── <span class="tree-dir">📂 css/</span>                 <span class="tree-comment"># Extended stylesheets and modular design system</span>
 │   ├── <span class="tree-dir">📂 benkormos/</span> 
@@ -163,9 +76,8 @@
 │ 
 ├── <span class="tree-file">📄 index.html</span>           <span class="tree-comment"># Main Landing Page / Hub with dynamic API logic</span>
 ├── <span class="tree-file">📄 developer.html</span>       <span class="tree-comment"># Overview page listing all developers in the project</span>
+├── <span class="tree-file">📄 files.html</span>           <span class="tree-comment"># Subpage displaying the internal directory architecture</span>
 ├── <span class="tree-file">📄 admin.html</span>           <span class="tree-comment"># Administrative dashboard or portal layout</span>
-├── <span class="tree-file">📄 template.html</span>        <span class="tree-comment"># Base blueprint for creating new member profile pages</span>
-├── <span class="tree-file">📄 files.html</span>           <span class="tree-comment"># The File System how its Build</span>
 │
 ├── <span class="tree-dir">👥 Member Profiles</span>
 │   ├── <span class="tree-file">📄 ben.html</span>
@@ -173,90 +85,9 @@
 │   └── <span class="tree-file">📄 mexo.html</span>
 │
 ├── <span class="tree-file">📄 logo.png</span>             <span class="tree-comment"># Official SynergyStation branding logo</span>
-└── <span class="tree-file">📄 README.md</span>            <span class="tree-comment"># Project documentation</span></pre>
-
-                <!-- Edit Mode Container -->
-                <textarea class="tree-editor" id="tree-editor"></textarea>
-                <div class="action-container" id="action-controls">
-                    <button class="btn-cancel" onclick="toggleEditMode()">Cancel</button>
-                    <button class="btn-save" onclick="saveTreeToServer()">Compile Changes</button>
-                </div>
-            </div>
+└── <span class="tree-file">📄 README.md</span>            <span class="tree-comment"># Project documentation (this file)</span></pre>
         </section>
     </div>
 
-    <script>
-        // Ersetze mit deiner Server-IP!
-        const BACKEND_URL = "http://87.176.83.166:5000/api/files";
-        let rawServerHTML = ""; 
-
-        async function loadDynamicTree() {
-            const treeContent = document.getElementById('tree-content');
-            const statusIndicator = document.getElementById('status-indicator');
-
-            try {
-                const response = await fetch(BACKEND_URL);
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data.tree) {
-                        rawServerHTML = data.tree;
-                        treeContent.innerHTML = data.tree;
-                        statusIndicator.textContent = "LIVE_MATRIX_CONNECTED";
-                        statusIndicator.classList.add('online');
-                    }
-                }
-            } catch (error) {
-                console.warn("Backend Offline. Fallback aktiv.");
-                rawServerHTML = treeContent.innerHTML; // Fallback zwischenspeichern
-            }
-        }
-
-        function toggleEditMode() {
-            const viewMode = document.getElementById('tree-content');
-            const editMode = document.getElementById('tree-editor');
-            const actions = document.getElementById('action-controls');
-            const editBtn = document.getElementById('edit-btn');
-
-            if (editMode.style.display === "none" || editMode.style.display === "") {
-                // Wechsel zu Bearbeiten
-                editMode.value = rawServerHTML.trim();
-                viewMode.style.display = "none";
-                editBtn.style.display = "none";
-                editMode.style.display = "block";
-                actions.style.display = "flex";
-            } else {
-                // Wechsel zurück zu Ansicht
-                editMode.style.display = "none";
-                actions.style.display = "none";
-                viewMode.style.display = "block";
-                editBtn.style.display = "block";
-            }
-        }
-
-        async function saveTreeToServer() {
-            const newTreeText = document.getElementById('tree-editor').value;
-
-            try {
-                const response = await fetch(BACKEND_URL, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ tree: newTreeText })
-                });
-
-                if (response.ok) {
-                    alert("Matrix erfolgreich aktualisiert!");
-                    rawServerHTML = newTreeText;
-                    document.getElementById('tree-content').innerHTML = newTreeText;
-                    toggleEditMode();
-                } else {
-                    alert("Fehler beim Speichern auf dem Server.");
-                }
-            } catch (error) {
-                alert("Server nicht erreichbar. Änderungen konnten nicht kompiliert werden.");
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', loadDynamicTree);
-    </script>
 </body>
 </html>
