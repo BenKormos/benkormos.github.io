@@ -6,179 +6,274 @@
     <title>SynergyStation - Developers</title>
     <link rel="icon" type="image/jpeg" href="logo.png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
+        /* --- CORE ARCHITECTURE FROM HOMEPAGE --- */
         :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(20, 26, 44, 0.6);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --primary-gradient: linear-gradient(135deg, #00ff88 0%, #00bcff 100%);
+            --bg-main: #030307;
+            --bg-surface: #0a0a12;
+            --bg-surface-elevated: #121222;
+            
+            --border-main: rgba(255, 255, 255, 0.04);
+            --border-active: rgba(255, 255, 255, 0.15);
+            
+            --accent-cyan: #00f0ff;
+            --accent-purple: #bd5eff;
+            --accent-emerald: #00ffaa;
+            --accent-pink: #ff2a6d;
+            
+            --text-pure: #ffffff;
+            --text-main: #d1d1de;
+            --text-muted: #4e4e6a;
+            
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-lg: 12px;
+            --radius-md: 8px;
+            --radius-sm: 4px;
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         * { 
             box-sizing: border-box; 
             margin: 0; 
             padding: 0; 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
         }
 
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-main);
             background-image: 
-                radial-gradient(at 0% 0%, rgba(0, 188, 255, 0.12) 0px, transparent 50%),
-                radial-gradient(at 100% 100%, rgba(0, 255, 136, 0.08) 0px, transparent 50%);
+                linear-gradient(rgba(18, 18, 34, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(18, 18, 34, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
             color: var(--text-main);
+            font-family: var(--font-sans);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 40px 20px;
+            padding: 120px 24px 60px 24px;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container { 
             width: 100%; 
-            max-width: 800px; /* Erhöht, damit das Grid Platz zum Entfalten hat */
+            max-width: 780px; 
             display: flex; 
             flex-direction: column; 
-            gap: 20px; 
+            gap: 16px; 
+            opacity: 0;
+            animation: wireframe-reveal 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+        }
+
+        @keyframes wireframe-reveal {
+            from { opacity: 0; transform: scale(0.98); filter: brightness(0.5); }
+            to { opacity: 1; transform: scale(1); filter: brightness(1); }
         }
 
         .back-link {
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.9rem;
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            transition: color 0.2s;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            transition: var(--transition-fast);
             width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .back-link:hover { color: #00ff88; }
+        .back-link:hover { color: var(--text-pure); }
 
-        .section-box {
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--card-border);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        /* --- CYBER PANEL SYSTEM --- */
+        .panel {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-main);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            transition: var(--transition-fast);
         }
 
-        h2 {
-            font-size: 1.6rem;
+        .panel:hover {
+            border-color: var(--border-active);
+        }
+
+        .panel-title {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-pure);
             margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 10px;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            justify-content: space-between;
         }
 
-        /* --- NEUES RESPONSIVES GRID SYSTEM --- */
+        .panel-title span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .panel-title i { 
+            color: var(--text-muted); 
+        }
+
+        .live-tag {
+            color: var(--accent-cyan);
+            background: transparent;
+            border: 1px solid var(--accent-cyan);
+            padding: 1px 5px;
+            border-radius: var(--radius-sm);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+        }
+
+        /* --- CORE DEV GRID --- */
         .dev-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 16px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
             width: 100%;
         }
 
-        .dev-card {
-            display: flex;
-            flex-direction: column; /* Zentrierter Card-Stil für besseren Grid-Look */
-            align-items: center;
-            text-align: center;
-            gap: 14px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--card-border);
-            padding: 24px 16px;
-            border-radius: 16px;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        
-        .dev-card:hover {
-            border-color: rgba(0, 188, 255, 0.3);
-            background: rgba(255, 255, 255, 0.04);
-            transform: translateY(-4px);
-            box-shadow: 0 6px 20px rgba(0, 255, 136, 0.05);
+        /* Card Link Wrapper */
+        .dev-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
 
-        .avatar-container {
+        .dev-card {
+            background: transparent;
+            border: 1px solid var(--border-main);
+            border-radius: var(--radius-md);
+            padding: 28px 12px 24px 12px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            transition: var(--transition-fast);
+            height: 100%;
+        }
+        
+        .dev-link:hover .dev-card {
+            background: rgba(255, 255, 255, 0.01);
+            transform: translateY(-2px);
+        }
+
+        /* Profile-specific glows based on homepage colors */
+        .dev-link:hover .dev-card.ben { border-color: var(--accent-cyan); box-shadow: 0 0 15px rgba(0, 240, 255, 0.1); }
+        .dev-link:hover .dev-card.julian { border-color: var(--accent-pink); box-shadow: 0 0 15px rgba(255, 42, 109, 0.1); }
+        .dev-link:hover .dev-card.mexo { border-color: var(--accent-emerald); box-shadow: 0 0 15px rgba(0, 255, 170, 0.1); }
+
+        .avatar-mainframe {
+            width: 72px;
+            height: 72px;
             position: relative;
-            width: 70px;
-            height: 70px;
         }
 
         .dev-avatar {
             width: 100%;
             height: 100%;
-            border-radius: 50%;
             object-fit: cover;
-            border: 2px solid #00ff88;
-            background: #141a2c;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-active);
+            filter: grayscale(0.2);
+            transition: var(--transition-fast);
+            background: #05050a;
         }
 
+        .dev-link:hover .dev-avatar {
+            filter: grayscale(0);
+        }
+        
+        .dev-link:hover .dev-card.ben .dev-avatar { border-color: var(--accent-cyan); }
+        .dev-link:hover .dev-card.julian .dev-avatar { border-color: var(--accent-pink); }
+        .dev-link:hover .dev-card.mexo .dev-avatar { border-color: var(--accent-emerald); }
+
         .dev-info h4 { 
-            font-size: 1.1rem; 
-            font-weight: 600;
-            margin-bottom: 4px; 
-            color: var(--text-main);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.9rem; 
+            color: var(--text-pure);
+            margin-bottom: 2px;
         }
         
         .dev-info p { 
+            font-family: var(--font-mono);
             color: var(--text-muted); 
-            font-size: 0.85rem; 
+            font-size: 0.6rem; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- RESPONSIVENESS MATRIX --- */
+        @media (max-width: 768px) {
+            .dev-grid { grid-template-columns: 1fr; gap: 10px; }
+            body { padding-top: 80px; }
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Zurück zum Hub</a>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Return to Mainframe</a>
         
-        <section class="section-box">
-            <h2><i class="fas fa-code"></i> Team & Developers</h2>
+        <section class="panel">
+            <div class="panel-title">
+                <span><i class="fas fa-code"></i> CORE // DEVELOPMENT_TEAM</span>
+                <span class="live-tag">VERIFIED_UNITS</span>
+            </div>
             
-            <!-- Grid Container umschließt alle Karten -->
             <div class="dev-grid">
                 
-                <!-- BenKormos -->
-                <div class="dev-card">
-                    <div class="avatar-container">
-                        <img src="pictures/benkormos.profilbild.jpg" alt="BenKormos" class="dev-avatar" onerror="this.src='https://ui-avatars.com/api/?name=BenKormos&background=141a2c&color=00ff88&bold=true'">
+                <!-- BenKormos Link -->
+                <a href="benkormos" class="dev-link">
+                    <div class="dev-card ben">
+                        <div class="avatar-mainframe">
+                            <img src="pictures/benkormos.profilbild.jpg" alt="BenKormos" class="dev-avatar" onerror="this.src='https://ui-avatars.com/api/?name=BenKormos&background=0a0a12&color=00f0ff&bold=true'">
+                        </div>
+                        <div class="dev-info">
+                            <h4>BenKormos</h4>
+                            <p>Founder & Lead Dev</p>
+                        </div>
                     </div>
-                    <div class="dev-info">
-                        <h4>BenKormos</h4>
-                        <p>Founder & Lead Developer</p>
-                    </div>
-                </div>
+                </a>
                 
-                <div class="dev-card">
-                    <div class="avatar-container">
-                        <img src="pictures/julian.profilbild.png" alt="Julian442" class="dev-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Julian442&background=141a2c&color=00ff88&bold=true'">
+                <!-- Julian442 Link -->
+                <a href="julian442" class="dev-link">
+                    <div class="dev-card julian">
+                        <div class="avatar-mainframe">
+                            <img src="pictures/julian.profilbild.png" alt="Julian442" class="dev-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Julian442&background=0a0a12&color=ff2a6d&bold=true'">
+                        </div>
+                        <div class="dev-info">
+                            <h4>Julian442</h4>
+                            <p>Core Developer</p>
+                        </div>
                     </div>
-                    <div class="dev-info">
-                        <h4>Julian442</h4>
-                        <p>Developer</p>
-                    </div>
-                </div>
+                </a>
 
-                <!-- Mexo -->
-                <div class="dev-card">
-                    <div class="avatar-container">
-                        <img src="pictures/mexo.profilbild.png" alt="Mexo" class="dev-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Mexo&background=141a2c&color=00ff88&bold=true'">
+                <!-- Mexo Link -->
+                <a href="mexo" class="dev-link">
+                    <div class="dev-card mexo">
+                        <div class="avatar-mainframe">
+                            <img src="pictures/mexo.profilbild.png" alt="Mexo" class="dev-avatar" onerror="this.src='https://ui-avatars.com/api/?name=Mexo&background=0a0a12&color=00ffaa&bold=true'">
+                        </div>
+                        <div class="dev-info">
+                            <h4>Mexo</h4>
+                            <p>Core Developer</p>
+                        </div>
                     </div>
-                    <div class="dev-info">
-                        <h4>Mexo</h4>
-                        <p>Developer</p>
-                    </div>
-                </div>
+                </a>
                 
-
             </div>
         </section>
     </div>

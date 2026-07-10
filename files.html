@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SynergyStation // File Matrix</title>
+    <link rel="icon" type="image/jpeg" href="logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/homepage/style.css">
+    <style>
+        .tree-view {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            line-height: 1.8;
+            background: #05050a;
+            border: 1px solid var(--border-main);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            overflow-x: auto;
+            color: var(--text-main);
+        }
+        .tree-dir { color: var(--accent-cyan); font-weight: bold; }
+        .tree-file { color: var(--text-pure); }
+        .tree-audio { color: var(--accent-amber); }
+        .tree-css { color: var(--accent-purple); }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            margin-bottom: 20px;
+            transition: var(--transition-fast);
+        }
+        .back-link:hover { color: var(--text-pure); }
+    </style>
+</head>
+<body>
+
+    <div class="container" style="opacity: 1; animation: none;">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Return to Mainframe</a>
+        
+        <section class="panel">
+            <div class="panel-title">
+                <span><i class="fas fa-network-wired" style="color: var(--accent-cyan);"></i> ARCHITECTURE // FILE_MATRIX</span>
+                <span class="live-tag" style="border-color: var(--accent-cyan); color: var(--accent-cyan);">SYSTEM_TREE</span>
+            </div>
+            
+            <pre class="tree-view">
+.
+├── <span class="tree-dir">📂 background/</span>          <span class="tree-comment"># Custom background assets (Images / Videos)</span>
+├── <span class="tree-dir">📂 css/</span>                 <span class="tree-comment"># Extended stylesheets and modular design system</span>
+│   ├── <span class="tree-dir">📂 benkormos/</span> 
+│   │   └── <span class="tree-css">📄 style.css</span>
+│   └── <span class="tree-dir">📂 homepage/</span>
+│       └── <span class="tree-css">📄 style.css</span>
+├── <span class="tree-dir">📂 music/</span>               <span class="tree-comment"># Audio assets and background tracks</span>
+│   ├── <span class="tree-dir">📂 mexo/</span>
+│   │   ├── <span class="tree-audio">🎵 Tuff.mp3</span>
+│   │   ├── <span class="tree-audio">🎵 Tuff2.mp3</span>
+│   │   └── <span class="tree-audio">🎵 Tuff3.mp3</span>
+│   ├── <span class="tree-dir">📂 ben/</span>
+│   │   ├── <span class="tree-audio">🎵 ballernundsaufen.mp3</span>
+│   │   ├── <span class="tree-audio">🎵 fish.mp3</span>
+│   │   └── <span class="tree-audio">🎵 pubc.mp3</span>
+│   ├── <span class="tree-audio">🎵 pitanga.mp3</span>
+│   └── <span class="tree-audio">🎵 Tacos.mp3</span>
+│
+├── <span class="tree-dir">📂 pictures/</span>            <span class="tree-comment"># Profile pictures and avatars for members</span>
+│   ├── 📷 benkormos.profilbild.jpg
+│   ├── 📷 julian.profilbild.png
+│   └── 📷 mexo.profilbild.png
+│ 
+├── <span class="tree-file">📄 index.html</span>           <span class="tree-comment"># Main Landing Page / Hub with dynamic API logic</span>
+├── <span class="tree-file">📄 developer.html</span>       <span class="tree-comment"># Overview page listing all developers in the project</span>
+├── <span class="tree-file">📄 admin.html</span>           <span class="tree-comment"># Administrative dashboard or portal layout</span>
+├── <span class="tree-file">📄 template.html</span>        <span class="tree-comment"># Base blueprint for creating new member profile pages</span>
+│
+├── <span class="tree-dir">👥 Member Profiles</span>
+│   ├── <span class="tree-file">📄 ben.html</span>
+│   ├── <span class="tree-file">📄 julian.html</span>
+│   └── <span class="tree-file">📄 mexo.html</span>
+│
+├── <span class="tree-file">📄 logo.png</span>             <span class="tree-comment"># Official SynergyStation branding logo</span>
+└── <span class="tree-file">📄 README.md</span>            <span class="tree-comment"># Project documentation</span></pre>
+        </section>
+    </div>
+
+</body>
+</html>
