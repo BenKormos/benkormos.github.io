@@ -8,9 +8,13 @@
     <link rel="icon" type="image/jpeg" href="logo.png">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/homepage/style.css">
+
+    <!-- Google AdSense -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5190849771422282"
+     crossorigin="anonymous"></script>
 </head>
 <body>
 
@@ -18,7 +22,7 @@
         <a href="#" class="nav-logo">NETZ<span>NETZ</span></a>
         <div class="nav-links">
             <a href="/files.html" class="nav-btn dev-btn">
-                <i class="fas fa-folder-open" style="color: var(--accent-amber);"></i>
+                <i class="fas fa-folder-open" style="color: var(--accent-hazard);"></i>
                 <span>Files</span>
             </a>
             <a href="developer.html" class="nav-btn dev-btn">
@@ -43,11 +47,11 @@
 
         <section class="panel" id="cron-box" style="display: none;">
             <div class="panel-title">
-                <span><i class="fas fa-terminal" style="color: var(--accent-emerald);"></i> DATALOG // REPOSITORY_MIRROR</span>
+                <span><i class="fas fa-terminal" style="color: var(--accent-ok);"></i> DATALOG // REPOSITORY_MIRROR</span>
                 <span class="live-tag">SECURE_SYNC</span>
             </div>
             <div class="cron-terminal">
-                <div class="update-header-badge" style="color: var(--accent-emerald); font-weight: 700; margin-bottom: 6px;"><i class="fas fa-check-circle"></i> INCOMING_PAYLOAD:</div>
+                <div class="update-header-badge" style="color: var(--accent-ok); font-weight: 700; margin-bottom: 6px;"><i class="fas fa-check-circle"></i> INCOMING_PAYLOAD:</div>
                 <p id="update-text">Initializing stream data...</p>
             </div>
         </section>
@@ -109,7 +113,7 @@
 
         <section class="panel" id="github-panel">
             <div class="panel-title">
-                <span><i class="fas fa-code-branch" style="color: var(--accent-purple);"></i> OPEN_SOURCE_CODE</span>
+                <span><i class="fas fa-code-branch" style="color: var(--accent-stamp);"></i> OPEN_SOURCE_CODE</span>
             </div>
             <a href="https://github.com/netznetzproductions/website" target="_blank" class="oss-container">
                 <div class="oss-meta">
@@ -124,6 +128,23 @@
                     <span><i class="fas fa-code"></i> HTML / CSS / JS</span>
                 </div>
             </a>
+        </section>
+
+        <section class="panel" id="ad-panel">
+            <div class="panel-title">
+                <span><i class="fas fa-rectangle-ad" style="color: var(--text-muted);"></i> SPONSORED // AD_SLOT</span>
+                <span class="badge">EXT_CONTENT</span>
+            </div>
+            <!-- Trage hier deine echte data-ad-slot ID aus dem AdSense-Dashboard ein -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-5190849771422282"
+             data-ad-slot="1234567890"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
         </section>
 
         <section class="panel">
