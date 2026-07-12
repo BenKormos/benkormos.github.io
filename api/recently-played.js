@@ -5,8 +5,8 @@
 //   SPOTIFY_CLIENT_SECRET
 //   SPOTIFY_REFRESH_TOKEN
 
-export default async function handler(req, res) {
-    const { f77cf578d0f44e5eba2f43d511bf8b4d, 67a768994901401787230da13259623b, AQCCAW9KlPVkXz4mX55Xg-JxClGciRoPyjHgqJwnENwMP34z8YgVSN8LikfHQv7--58hSop8pfwcs-_TuGbmsYFTUiqmHDGKtfv3hgpY5M3aLBYV3r9pR81bluqd_YPKOShtug7JyIELUucI5jH5MY3Clgz7HjNqTeUauA8PoPJehJ4R46YciKK6OQ0vxOT2H_-lXA69-pQR_v7Qi-Ub8vN8KQb6yXtG6-HoB4XRLiOFwA4N9SLAdoO00yohHWiQQcdx53RMvUqbgIMGgRapvwDE3D8d22Wg69v5rR5wGmW1_pYMvnG_&ubi=CAIQ8pilsPUzGiRjYjI3MTU1Ni04NjkwLTQ0MjktODhjOS1iNTYzMmQ4MjRhZjUiJDFmNGViNTViLTJlZjgtNDYzMC04ZmQ4LTFkMGU1YTNlNmVkMTokMWY0ZWI1NWItMmVmOC00NjMwLThmZDgtMWQwZTVhM2U2ZWQxQhB1c2VyX2ludGVyYWN0aW9uSiRlODIxYjY5OS01MjY1LTRhNWMtODk1My0xNjRhZjM2OWU4N2FQAA } = process.env;
+module.exports = async (req, res) => {
+    const {  f77cf578d0f44e5eba2f43d511bf8b4d, 67a768994901401787230da13259623b, AQCCAW9KlPVkXz4mX55Xg-JxClGciRoPyjHgqJwnENwMP34z8YgVSN8LikfHQv7--58hSop8pfwcs-_TuGbmsYFTUiqmHDGKtfv3hgpY5M3aLBYV3r9pR81bluqd_YPKOShtug7JyIELUucI5jH5MY3Clgz7HjNqTeUauA8PoPJehJ4R46YciKK6OQ0vxOT2H_-lXA69-pQR_v7Qi-Ub8vN8KQb6yXtG6-HoB4XRLiOFwA4N9SLAdoO00yohHWiQQcdx53RMvUqbgIMGgRapvwDE3D8d22Wg69v5rR5wGmW1_pYMvnG_&ubi=CAIQ8pilsPUzGiRjYjI3MTU1Ni04NjkwLTQ0MjktODhjOS1iNTYzMmQ4MjRhZjUiJDFmNGViNTViLTJlZjgtNDYzMC04ZmQ4LTFkMGU1YTNlNmVkMTokMWY0ZWI1NWItMmVmOC00NjMwLThmZDgtMWQwZTVhM2U2ZWQxQhB1c2VyX2ludGVyYWN0aW9uSiRlODIxYjY5OS01MjY1LTRhNWMtODk1My0xNjRhZjM2OWU4N2FQAA } = process.env;
 
     if (!SPOTIFY_CLIENT_ID || !SPOTIFY_CLIENT_SECRET || !SPOTIFY_REFRESH_TOKEN) {
         return res.status(500).json({ error: 'Spotify env vars not configured' });
@@ -29,7 +29,9 @@ export default async function handler(req, res) {
         });
 
         if (!tokenRes.ok) {
-            return res.status(502).json({ error: 'Token refresh failed' });
+            const errText = await tokenRes.text();
+            console.error('Token refresh failed:', errText);
+            return res.status(502).json({ error: 'Token refresh failed', details: errText });
         }
 
         const tokenData = await tokenRes.json();
@@ -45,8 +47,8 @@ export default async function handler(req, res) {
             if (nowData && nowData.item) {
                 return res.status(200).json({
                     name: nowData.item.name,
-                    artist: nowData.item.artists.map(a => a.name).join(', '),
-                    image: nowData.item.album.images?.[0]?.url || '',
+                    artist: nowData.item.artists.map((a) => a.name).join(', '),
+                    image: (nowData.item.album.images && nowData.item.album.images[0] && nowData.item.album.images[0].url) || '',
                     url: nowData.item.external_urls.spotify,
                     isPlaying: true
                 });
@@ -59,11 +61,13 @@ export default async function handler(req, res) {
         });
 
         if (!recentRes.ok) {
-            return res.status(502).json({ error: 'Recently-played fetch failed' });
+            const errText = await recentRes.text();
+            console.error('Recently-played fetch failed:', errText);
+            return res.status(502).json({ error: 'Recently-played fetch failed', details: errText });
         }
 
         const recentData = await recentRes.json();
-        const track = recentData.items?.[0]?.track;
+        const track = recentData.items && recentData.items[0] && recentData.items[0].track;
 
         if (!track) {
             return res.status(404).json({ error: 'No recent tracks' });
@@ -74,14 +78,14 @@ export default async function handler(req, res) {
 
         return res.status(200).json({
             name: track.name,
-            artist: track.artists.map(a => a.name).join(', '),
-            image: track.album.images?.[0]?.url || '',
+            artist: track.artists.map((a) => a.name).join(', '),
+            image: (track.album.images && track.album.images[0] && track.album.images[0].url) || '',
             url: track.external_urls.spotify,
             isPlaying: false
         });
 
     } catch (err) {
         console.error('Spotify widget error:', err);
-        return res.status(500).json({ error: 'Internal error' });
+        return res.status(500).json({ error: 'Internal error', details: String(err) });
     }
-}
+};
